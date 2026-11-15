@@ -2,3 +2,8 @@ node_modules/
 dist/
 .DS_Store
 *.log
+
+# Snímky z kontroly (vytvorí ich npm run kontrola)
+snimky/na-vysku/
+snimky/na-sirku/
+test-results/

@@ -15,8 +15,9 @@ export const PRISLOVIE = {
       const q = otazkaPrislovia(p.moznosti, Math.random, pouzite);
       pouzite.push(q.prislovie);
       const ok = await otazka(plocha, {
-        zadanieText: `Ktoré slovo chýba v príslovi? ${q.pred} … ${q.za}`,
-        obsah: h('p', { class: 'veta' }, q.pred, h('span', { class: 'veta__medzera', 'aria-label': 'chýbajúce slovo' }, '……'), q.za),
+        zadanieText: 'Ktoré slovo chýba v príslovi?',
+        citatNavyse: `${q.pred} … ${q.za}`,
+        obsah: h('p', { class: 'veta' }, q.pred, h('span', { class: 'veta__medzera', role: 'img', 'aria-label': 'chýbajúce slovo' }), q.za),
         moznosti: q.moznosti.map((s) => ({ hodnota: s, popis: s, obsah: s })),
         spravna: q.slovo,
         triedaMoznosti: 'volby--slova',
@@ -38,7 +39,8 @@ export const RADY = {
     for (let kolo = 0; kolo < p.kola; kolo++) {
       const q = otazkaRadu(uroven, p.moznosti);
       const ok = await otazka(plocha, {
-        zadanieText: `Ktoré číslo pokračuje v rade ${q.zobrazene.join(', ')}?`,
+        zadanieText: 'Ktoré číslo v rade pokračuje?',
+        citatNavyse: `Rad: ${q.zobrazene.join(', ')}.`,
         obsah: h(
           'div',
           { class: 'rad-cisel', 'aria-hidden': 'true' },

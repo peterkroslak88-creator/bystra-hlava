@@ -77,5 +77,10 @@ Hra na aktivizáciu a tréning mysle pre klientov zariadenia sociálnych služie
 
 ## Technológia
 - Vite + čistý JavaScript (ES moduly), GSAP. Testy: Vitest.
-- PWA: manifest, service worker, offline.
+- PWA: `public/manifest.webmanifest`, ikony v `public/ikony/` (`npm run ikony`), service worker vzniká pri buildu zo `nastroje/sw-sablona.js` (zoznam súborov dopĺňa plugin vo `vite.config.js`; `ignoreVary` je nutné, inak offline nenájde súbory).
+- Písma len latin + latin-ext (offline balík ~1 MB).
+
+## Kontrola pred odovzdaním
+- `npm test` – zakázané výrazy, emoji, PIN, obťažnosť, povolené polia, záloha, súkromie (žiadne volania servera), manifest.
+- `npm run kontrola` – Playwright (Chromium) prejde 29 obrazoviek ako iPad na výšku aj na šírku, odfotí ich do `snimky/`, skontroluje text ≥ 18 px, kontrast ≥ 4,5 : 1, tlačidlá ≥ 56 px, plochy ≥ 44 px, popisky a pätičku, a overí offline režim. Správa: `snimky/kontrola.md`.
 - Hosting (až na pokyn): GitHub Pages.

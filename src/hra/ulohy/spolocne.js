@@ -54,7 +54,8 @@ export function odozva(plocha, { spravne, vysvetlenie = '', rozhovor = '', dalej
  */
 export function otazka(plocha, o) {
   return new Promise((hotovo) => {
-    const citat = `${o.zadanieText} Možnosti: ${o.moznosti.map((m) => m.popis).join(', ')}.`;
+    // Nahlas sa prečíta aj obsah otázky (napr. príslovie), ktorý je na obrazovke len raz
+    const citat = `${o.zadanieText} ${o.citatNavyse ? `${o.citatNavyse} ` : ''}Možnosti: ${o.moznosti.map((m) => m.popis).join(', ')}.`;
     const tlacidla = o.moznosti.map((m) =>
       h('button', { type: 'button', class: 'volba', 'data-hodnota': String(m.hodnota) }, m.obsah)
     );

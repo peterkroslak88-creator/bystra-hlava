@@ -455,10 +455,11 @@
 
 .veta__medzera {
   display: inline-block;
-  min-width: 4ch;
+  width: 4.5em;
+  height: 1em;
   margin: 0 0.2em;
+  vertical-align: baseline;
   border-bottom: 2px solid var(--oblast);
-  color: transparent;
 }
 
 /* Rady čísel */
@@ -689,8 +690,15 @@
   background: #e7efd9;
 }
 
+/* Nesprávne možnosti sa stíšia farbou, nie priehľadnosťou (kvôli kontrastu) */
 .kviz__moznost--tlmena {
-  opacity: 0.7;
+  background: #f1ebdc;
+  color: var(--atrament-jemny);
+}
+
+.kviz__moznost--tlmena .kviz__pismeno {
+  background: #e9e3d4;
+  color: var(--atrament-jemny);
 }
 
 .kviz__ovladanie {
