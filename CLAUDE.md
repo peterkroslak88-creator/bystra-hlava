@@ -30,6 +30,14 @@ Hra na aktivizáciu a tréning mysle pre klientov zariadenia sociálnych služie
 - Po 15 minútach nečinnosti automatické odhlásenie.
 - Test kontroluje, že uložený záznam hráča obsahuje iba povolené polia.
 
+## Zabezpečenie
+- PIN: `src/ulozisko/pin.js` – PBKDF2-HMAC-SHA-256, 200 000 opakovaní, soľ; tvar `p2$<opakovania>$<hex>` v poli `pinHash`. Staré záznamy (čisté SHA-256) sa overia a pri správnom PIN prevedú. Neznižovať počet opakovaní.
+- Prestávka po nesprávnych pokusoch: `src/ulozisko/zamok.js` – uložená v nastavení `zamky` (nie pri hráčovi), 5 pokusov, potom 30 s a zdvojnásobovanie do 15 min. Nesmie sa dať obísť návratom späť.
+- CSP v `index.html`: len `'self'`, žiadne cudzie adresy, žiadne `unsafe-inline`/`unsafe-eval` pre skripty. Test to stráži; `npm run kontrola` hlási, ak CSP niečo zablokuje.
+- Všetok text od používateľa ide cez `h()` ako textový uzol; `html:` len pre vlastné konštantné SVG.
+- Git: autor commitov je anonymná GitHub adresa (`…@users.noreply.github.com`), úložisko je verejné – nikdy tam nedávať súkromný e-mail ani iné osobné údaje.
+- Známe obmedzenie: appky pod rovnakou adresou `*.github.io` zdieľajú úložisko prehliadača; pri ďalších appkách zvážiť vlastnú adresu.
+
 ## 3. Roly
 - **Personál:** jeden PIN (nastaví sa pri prvom spustení, zadá sa 2×). Spravuje hráčov, vidí len počet dní a kedy naposledy hral, upozornenie „Hráč sa N dní nezapojil do hry“ (N predvolene 5), skupinový kvíz, ukážkový hráč (PIN 1234), skrytý náhľad záhrady.
 - **Klient:** ťukne na svoj obrázok, zadá 4-miestny PIN, vidí svoju záhradu.

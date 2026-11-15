@@ -1,6 +1,7 @@
 // Hráči a personál. Ukladajú sa IBA povolené údaje (pozri CLAUDE.md, bod 2).
 import { db } from './db.js';
-import { zabezpecPin, overPin, jePlatnyPin } from './pin.js';
+import { zabezpecPin, overPin, jePlatnyPin, jeStaryOdtlacok } from './pin.js';
+import { spravnyPokus } from './zamok.js';
 import { ID_RASTLIN } from '../dizajn/rastliny.js';
 import { KLUCE_OBTIAZNOSTI, zaciatocneUrovne, vRozsahu, OBTIAZNOSTI } from '../hra/obtiaznost.js';
 
@@ -124,13 +125,17 @@ export async function zaznamenajDenHrania(id, den = dnesnyDen()) {
   return hrac;
 }
 
-export function vymazHraca(id) {
-  return db.vymazHraca(id);
+export async function vymazHraca(id) {
+  await db.vymazHraca(id);
+  await spravnyPokus(`hrac:${id}`); // zmaže aj prípadné počítadlo pokusov
 }
 
 export async function overPinHraca(id, pin) {
   const hrac = await db.hrac(id);
-  return hrac ? overPin(pin, hrac) : false;
+  if (!hrac || !(await overPin(pin, hrac))) return false;
+  // Starší, slabší odtlačok sa pri správnom PIN prevedie na nový
+  if (jeStaryOdtlacok(hrac)) await db.ulozHraca(ocistiHraca({ ...hrac, ...(await zabezpecPin(pin)) }));
+  return true;
 }
 
 export async function pridajUkazkovehoHraca() {
@@ -213,5 +218,8 @@ export async function nastavPersonalPin(pin) {
 }
 
 export async function overPersonalPin(pin) {
-  return overPin(pin, await db.citajNastavenie('personalPin'));
+  const zaznam = await db.citajNastavenie('personalPin');
+  if (!(await overPin(pin, zaznam))) return false;
+  if (jeStaryOdtlacok(zaznam)) await db.ulozNastavenie('personalPin', await zabezpecPin(pin));
+  return true;
 }

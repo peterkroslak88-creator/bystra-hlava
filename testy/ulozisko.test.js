@@ -26,7 +26,7 @@ beforeEach(async () => {
 describe('PIN', () => {
   it('ukladá sa len odtlačok so soľou, nie samotný PIN', async () => {
     const zaznam = await zabezpecPin('1234');
-    expect(zaznam.pinHash).toMatch(/^[0-9a-f]{64}$/);
+    expect(zaznam.pinHash).toMatch(/^p2\$200000\$[0-9a-f]{64}$/);
     expect(zaznam.pinSol).toMatch(/^[0-9a-f]{32}$/);
     expect(JSON.stringify(zaznam)).not.toContain('1234');
   });

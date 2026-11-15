@@ -2,6 +2,7 @@
 // Záloha obsahuje len povolené údaje (pozri CLAUDE.md, bod 2).
 import { db } from './db.js';
 import { ocistiHraca, dnesnyDen, MAX_DLZKA_MENA } from './hraci.js';
+import { jePlatnyOdtlacok } from './pin.js';
 import { ID_RASTLIN } from '../dizajn/rastliny.js';
 import { KLUCE_OBTIAZNOSTI, TYPY_ULOH, vRozsahu } from '../hra/obtiaznost.js';
 
@@ -32,7 +33,7 @@ function chyba() {
 }
 
 function overPin(p) {
-  return p && typeof p.pinSol === 'string' && HEX.test(p.pinSol) && typeof p.pinHash === 'string' && /^[0-9a-f]{64}$/.test(p.pinHash);
+  return p && typeof p.pinSol === 'string' && p.pinSol.length <= 128 && HEX.test(p.pinSol) && jePlatnyOdtlacok(p.pinHash);
 }
 
 // Skontroluje a vyčistí jedného hráča zo zálohy

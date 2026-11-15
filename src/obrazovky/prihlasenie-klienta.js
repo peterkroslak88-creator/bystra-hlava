@@ -4,10 +4,9 @@ import { hlavicka, nadpis, tlacidlo, obrazokRastliny } from '../komponenty/spolo
 import { pinpad } from '../komponenty/pinpad.js';
 import { VYSVETLIVKY, pozdrav } from '../texty.js';
 import { nacitajHraca, overPinHraca } from '../ulozisko/hraci.js';
+import { cakanie, nespravnyPokus, spravnyPokus, textCakania } from '../ulozisko/zamok.js';
 import { prihlasKlienta } from '../relacia.js';
 import { prejdi } from '../navigacia.js';
-
-const MAX_POKUSOV = 5;
 
 export async function prihlasenieKlienta({ hracId }) {
   const hrac = await nacitajHraca(hracId);
@@ -16,27 +15,32 @@ export async function prihlasenieKlienta({ hracId }) {
     return null;
   }
 
-  let pokusy = 0;
+  const zamok = `hrac:${hracId}`;
   const pad = pinpad({
     dlzka: 4,
     popis: 'PIN',
     async priZadani(pin, o) {
+      // Počas prestávky sa PIN vôbec neoveruje
+      const este = await cakanie(zamok);
+      if (este) return o.pockaj(este, textCakania(este));
       if (await overPinHraca(hracId, pin)) {
+        await spravnyPokus(zamok);
         o.sprava('Vitajte!', true);
         prihlasKlienta(hracId);
         prejdi(hrac.obtiaznost ? 'zahrada' : 'vyberObtiaznosti');
         return;
       }
-      pokusy++;
-      if (pokusy >= MAX_POKUSOV) {
-        pokusy = 0;
-        o.pockaj(30, 'Chvíľu si oddýchnime. Skúste to znova o pol minúty.');
-      } else {
+      const sekundy = await nespravnyPokus(zamok);
+      if (sekundy) o.pockaj(sekundy, textCakania(sekundy));
+      else {
         o.vycisti();
         o.sprava('Tento PIN nesedí. Skúste to, prosím, znova.');
       }
     },
   });
+  // Prestávka platí aj po návrate späť alebo obnovení stránky
+  const uzCaka = await cakanie(zamok);
+  if (uzCaka) pad.ovladanie.pockaj(uzCaka, textCakania(uzCaka));
 
   const el = h(
     'div',

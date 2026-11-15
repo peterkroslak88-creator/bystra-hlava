@@ -30,6 +30,10 @@ async function kontroluj({ nazov: orientacia, zariadenie }) {
   const s = await kontext.newPage();
   const chyby = [];
   s.on('pageerror', (e) => chyby.push(e.message));
+  // Ak by poistka CSP niečo v appke zablokovala, je to chyba
+  s.on('console', (m) => {
+    if (m.type() === 'error' && /Content Security Policy/i.test(m.text())) chyby.push(m.text().slice(0, 200));
+  });
 
   let poradie = 0;
   const fotka = async (meno) => {
