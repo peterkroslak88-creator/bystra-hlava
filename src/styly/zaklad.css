@@ -194,6 +194,48 @@ p {
   background: linear-gradient(to bottom, rgba(233, 223, 198, 0.35), rgba(233, 223, 198, 0.6));
 }
 
+/* Logo Care Orbit */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-family: var(--font-nadpis);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.logo__znak {
+  width: 1.5em;
+  height: 1.5em;
+  flex: none;
+}
+
+.logo__orbit {
+  font-style: italic;
+}
+
+.paticka__autor {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.logo--paticka {
+  font-size: 1.3rem; /* 26 px */
+}
+
+/* Na úvode a pri prvom spustení je logo väčšie, ako podpis autora */
+body[data-obrazovka='uvod'] .logo--paticka,
+body[data-obrazovka='prvySpustenie'] .logo--paticka {
+  font-size: 2rem;
+}
+
+body[data-obrazovka='uvod'] .paticka__autor,
+body[data-obrazovka='prvySpustenie'] .paticka__autor {
+  margin: 6px 0 16px;
+}
+
 .paticka p {
   max-width: 70ch;
   margin: 0 auto;

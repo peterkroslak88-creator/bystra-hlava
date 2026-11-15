@@ -116,6 +116,13 @@ npm run build        # zostaví appku do priečinka dist
 ```
 
 Pravidlá projektu (čo appka nesmie robiť, aké údaje smie ukladať, dizajn) sú v súbore `CLAUDE.md`.
+
+Logo **Care Orbit** na použitie v ďalších aplikáciách je v priečinku `logo/`:
+- `care-orbit-svetle.png` – na tmavý podklad (ako originál),
+- `care-orbit-tmave.png` – na svetlý podklad,
+- `care-orbit-znak-*.svg` – samotný kruhový znak, ostrý v akejkoľvek veľkosti.
+
+Nový balík vytvorí príkaz `npm run logo`.
 Každá zmena vo vetve `main` na GitHube sa po úspešných testoch sama zverejní.
 
 ---

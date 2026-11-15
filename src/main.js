@@ -19,11 +19,14 @@ import './styly/zahrada.css';
 import './styly/hra.css';
 
 import { PATICKA } from './texty.js';
+import { logoCareOrbit } from './dizajn/logo.js';
 import { prejdi } from './navigacia.js';
 import { sledujNecinnost } from './relacia.js';
 import { maPersonalPin } from './ulozisko/hraci.js';
 
 document.getElementById('paticka-text').textContent = PATICKA;
+// Logo Care Orbit v pätičke každej obrazovky
+document.getElementById('paticka-logo').append(logoCareOrbit('tmave', 'logo--paticka'));
 
 sledujNecinnost(() =>
   prejdi('uvod', { sprava: 'Po dlhšej chvíli bez ťuknutia sme vás pre istotu odhlásili.' })

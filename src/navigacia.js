@@ -58,6 +58,8 @@ async function zmen(nazov, data) {
   await odchodObrazovky(main.firstElementChild);
   aktualna?.zrus?.();
   main.replaceChildren(nova.el);
+  // Podľa obrazovky sa upraví napr. veľkosť loga v pätičke (väčšie na úvode)
+  document.body.dataset.obrazovka = Object.keys(OBRAZOVKY).find((k) => OBRAZOVKY[k] === definicia);
   aktualna = nova;
   window.scrollTo(0, 0);
   main.focus({ preventScroll: true });

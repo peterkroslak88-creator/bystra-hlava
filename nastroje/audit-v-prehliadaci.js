@@ -88,5 +88,9 @@ export function auditObrazovky() {
   // 4. Povinná pätička
   if (!document.querySelector('.paticka')?.innerText.includes('Nie je zdravotníckou pomôckou')) problemy.push('chýba povinná pätička');
 
+  // 5. Logo Care Orbit v pätičke
+  const logo = document.querySelector('.paticka .logo[aria-label="Care Orbit"]');
+  if (!logo || !viditelny(logo)) problemy.push('chýba logo Care Orbit v pätičke');
+
   return [...new Set(problemy)];
 }

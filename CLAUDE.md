@@ -54,6 +54,12 @@ Hra na aktivizáciu a tréning mysle pre klientov zariadenia sociálnych služie
 - Prístupnosť: text ≥ 18 px, tlačidlá ≥ 56 px vysoké, kontrast ≥ 4,5 : 1, žiadne emoji ani reklamy, ikony vždy s popiskom.
 - iPad na šírku aj na výšku, funguje aj na telefóne a počítači. Cieľ 60 fps, animácie pauza na pozadí.
 
+## Logo Care Orbit (autor appky)
+- Logo majiteľa projektu, má byť na **každej** jeho aplikácii. Originál: `obrazky/originaly/care-orbit-logo.png`.
+- Vektorová kresba v `src/dizajn/logo.js` (znak + nápis Cormorant Garamond, „Orbit“ kurzívou). Verzie: `svetle` (krémová/biela na tmavom, ako originál) a `tmave` (atrament a okrová na papieri – používa Bystrá hlava).
+- V appke: v pätičke každej obrazovky; na úvode a pri prvom spustení väčšie. Nie v herných úlohách. Kontrola (`npm run kontrola`) overuje, že je viditeľné.
+- Balík pre iné aplikácie: priečinok `logo/` (SVG znaku, PNG celého loga s priehľadným pozadím, ukážka na tmavom podklade) – vytvorí `npm run logo`.
+
 ## 7. Záhrada
 - `pust` → `zahrada` (rovnaká kompozícia), `kvet`, `kotul`, voliteľne `puk`. Originály v `obrazky/originaly/`, pripravené WebP v `public/obrazky/`.
 - 0 dní: púšť, horúci vzduch, oblaky, náhodný kotúľ (20–40 s).
