@@ -39,7 +39,7 @@ Hra na aktivizáciu a tréning mysle pre klientov zariadenia sociálnych služie
 - Denný tréning: 4 úlohy z rôznych oblastí (~10 min). Každá oblasť aj samostatne.
 - Oblasti: Bystré oko (stred a okraj), Pamäť (pexeso, nákupný zoznam), Slová (príslovie, poskladaj slovo), Logika (rady čísel, čo nepatrí), Orientácia (otočené tvary), Spomienky (ako to bolo kedysi).
 - Spätná väzba: „Správne!“ / „Nevadí“ + zvýraznenie správnej odpovede. Žiadne body, rebríčky, porovnávanie.
-- Čítanie nahlas: Web Speech API, sk-SK, rýchlosť 0,9.
+- Čítanie nahlas: Web Speech API, sk-SK, rýchlosť 0,9. Logika v `src/komponenty/hlas-logika.js` (testovaná): vyberá najkrajší slovenský hlas (vylepšený/prémiový má prednosť), **nikdy online hlas** (`localService === false` alebo „Online“ v názve – posielal by text na server). Text sa číta po vetách s pauzou ~0,3 s. Personál môže zvoliť hlas (Personál → Hlas na čítanie), uloží sa ako nastavenie tabletu `hlasCitania`, nie k hráčovi. Na iPade odporúčame „Laura (vylepšený)“ – návod v NAVOD.md.
 - Skupinový kvíz: 2–4 tímy, 10 otázok, moderátor pripisuje body, nič sa neukladá.
 - Vysvetlivky „i“: skutočný `<button>`, `aria-expanded`, klávesnica, plocha ≥ 44 × 44 px, text 1–3 vety + tlačidlo „prečítať nahlas“.
 

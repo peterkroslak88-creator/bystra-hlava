@@ -151,6 +151,17 @@ export function popisObtiaznosti(hrac) {
   return hrac.obtiaznost ? OBTIAZNOSTI[hrac.obtiaznost].nazov : 'vyberie si pri prvom prihlásení';
 }
 
+// ---------- Hlas na čítanie (nastavenie tabletu, nie hráča) ----------
+
+export async function hlasCitania() {
+  return (await db.citajNastavenie('hlasCitania')) ?? null;
+}
+
+// null = automaticky najkrajší slovenský hlas
+export async function nastavHlasCitania(voiceURI) {
+  await db.ulozNastavenie('hlasCitania', voiceURI || null);
+}
+
 // ---------- Upozornenia pre personál ----------
 
 export const PREDVOLENE_DNI_UPOZORNENIA = 5;

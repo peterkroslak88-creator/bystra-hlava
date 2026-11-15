@@ -16,6 +16,7 @@ import {
 } from '../ulozisko/hraci.js';
 import { vytvorZalohu, nazovSuboru, overZalohu, obnovZalohu, vymazVsetkyUdaje } from '../ulozisko/zaloha.js';
 import { odhlas } from '../relacia.js';
+import { vyberHlasu } from '../komponenty/vyber-hlasu.js';
 import { prejdi } from '../navigacia.js';
 
 // Karta so sekciou: nadpis, vysvetlivka „i“ a obsah
@@ -139,6 +140,8 @@ export async function personal({ sprava = '' } = {}) {
     prejdi('prvySpustenie');
   }
 
+  const vyberHlasuEl = await vyberHlasu();
+
   // ---------- Zoznam hráčov ----------
   const zoznam = hraci.length
     ? h(
@@ -228,6 +231,8 @@ export async function personal({ sprava = '' } = {}) {
       h('div', {}, tlacidlo('Otvoriť náhľad', { ikonka: 'lista', onClick: () => prejdi('nahladZahrady') }))
     ),
 
+    sekcia('Hlas na čítanie', VYSVETLIVKY.hlas, vyberHlasuEl.el),
+
     sekcia(
       'Záloha a obnova',
       VYSVETLIVKY.zaloha,
@@ -263,5 +268,5 @@ export async function personal({ sprava = '' } = {}) {
       h('div', {}, tlacidlo('Vymazať všetky údaje', { druh: 'nebezpecne', ikonka: 'kos', onClick: vymazVsetko }))
     )
   );
-  return { el };
+  return { el, zrus: vyberHlasuEl.zrus };
 }

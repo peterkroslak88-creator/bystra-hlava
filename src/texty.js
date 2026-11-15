@@ -37,6 +37,10 @@ export const VYSVETLIVKY = {
     nazov: 'Skupinový kvíz',
     text: 'Kvíz pre 2 až 4 tímy na projektor alebo veľkú obrazovku. Moderátor číta otázky, odkryje odpoveď a pripíše body. Nič sa neukladá.',
   },
+  hlas: {
+    nazov: 'Hlas na čítanie',
+    text: 'Vyberte hlas, ktorým appka číta zadania a vysvetlivky. Používajú sa len hlasy uložené priamo v tablete, text sa nikam neposiela.',
+  },
   zaloha: {
     nazov: 'Záloha a obnova',
     text: 'Záloha uloží hráčov a nastavenia do súboru. Ten môžete nahrať na inom tablete alebo po výmene tabletu. Obnova nahradí všetky súčasné údaje.',
