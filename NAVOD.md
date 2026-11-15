@@ -8,7 +8,7 @@ Všetky údaje zostávajú len v tablete a nikam sa neodosielajú.
 ## 1. Inštalácia na iPad (raz pre každý tablet)
 
 1. Na iPade otvorte **Safari** (iný prehliadač nepoužívajte).
-2. Zadajte adresu appky: **ADRESA_APPKY** (doplní sa po zverejnení).
+2. Zadajte adresu appky: **https://peterkroslak88-creator.github.io/bystra-hlava/**
 3. Ťuknite na tlačidlo **Zdieľať** (štvorček so šípkou nahor).
 4. Vyberte **Pridať na plochu** a potvrďte **Pridať**.
 5. Na ploche pribudne ikona s levanduľou **Bystrá hlava**.
