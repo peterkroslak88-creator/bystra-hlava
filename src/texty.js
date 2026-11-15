@@ -29,6 +29,10 @@ export const VYSVETLIVKY = {
     nazov: 'Čo appka ukladá',
     text: 'Appka si pamätá len prezývku, obrázok, zabezpečený PIN, dni, keď sa hralo, a nastavenia hry. Odpovede sa nikde neukladajú a nič neodchádza mimo tento tablet.',
   },
+  nahladZahrady: {
+    nazov: 'Náhľad záhrady',
+    text: 'Tu si môžete vyskúšať, ako záhrada vyzerá po rôznom počte dní. Slúži na predvádzanie a nič nemení.',
+  },
   zahrada: {
     nazov: 'Záhrada',
     text: 'Každý deň, keď si zahráte, v záhrade niečo pribudne. Z pustej krajiny sa postupne stane rozkvitnutá záhrada.',

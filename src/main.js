@@ -8,6 +8,7 @@ import '@fontsource/nunito/700.css';
 import './styly/zaklad.css';
 import './styly/komponenty.css';
 import './styly/obrazovky.css';
+import './styly/zahrada.css';
 
 import { PATICKA } from './texty.js';
 import { prejdi } from './navigacia.js';

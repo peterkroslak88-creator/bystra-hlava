@@ -88,6 +88,22 @@ export async function personal({ sprava = '' } = {}) {
         h(
           'div',
           { class: 'riadok', style: 'gap: 4px' },
+          h('h2', {}, 'Náhľad záhrady'),
+          info(VYSVETLIVKY.nahladZahrady.nazov, VYSVETLIVKY.nahladZahrady.text)
+        ),
+        h('p', { class: 'jemny-text' }, 'Ukáže, ako záhrada rastie po 0 až 45 dňoch tréningu.'),
+        h('div', {}, tlacidlo('Otvoriť náhľad', { ikonka: 'lista', onClick: () => prejdi('nahladZahrady') }))
+      )
+    ),
+    h(
+      'section',
+      { class: 'sekcia' },
+      h(
+        'div',
+        { class: 'karta stlpec' },
+        h(
+          'div',
+          { class: 'riadok', style: 'gap: 4px' },
           h('h2', {}, 'Čo appka ukladá'),
           info(VYSVETLIVKY.coUklada.nazov, VYSVETLIVKY.coUklada.text)
         ),

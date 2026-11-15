@@ -4,6 +4,9 @@ import { gsap } from 'gsap';
 
 const obmedzitPohyb = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+// Animácie trvajú vždy presne určený čas, aj keď zariadenie na chvíľu spomalí
+gsap.ticker.lagSmoothing(0);
+
 // Adresa s „?bezpohybu“ vypne animácie (na kontrolné snímky obrazovky)
 const bezPohybu = new URLSearchParams(window.location.search).has('bezpohybu');
 if (bezPohybu) document.documentElement.classList.add('bez-pohybu');

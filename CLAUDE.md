@@ -59,6 +59,10 @@ Hra na aktivizáciu a tréning mysle pre klientov zariadenia sociálnych služie
 - 0 dní: púšť, horúci vzduch, oblaky, náhodný kotúľ (20–40 s).
 - 1 deň: rast kvetu (4–5 s, len raz). Ďalej odkrývanie záhrady šumovou maskou od kvetu, plná ~45 dní. Míľniky 7, 10, 14, 21, 30, 45.
 - Vietor: generovaná tráva a kvety v odkrytej časti, poryvy ako vlna. Paralaxa, ročné obdobia.
+- Kód: `src/zahrada/` – `malba.js` (WebGL shader: prelínanie, horúci vzduch, oblaky), `vietor.js` (canvas: tráva, kvety, kotúľ, častice), `scena.js` (spája všetko, kvet a rast), `milniky.js` (podiel odkrytia podľa dní, texty), `sum.js` (poradové pole – rovnaký vzorec v JS aj GLSL, musia sa zhodovať).
+- Prípravu obrázkov robí `npm run obrazky` (sharp; rembg nie je, Python chýba). Kvet: kľúčovanie bielej len od okraja, aby bledé lupene zostali celé.
+- Animácia rastu kvetu sa prehrá len cez parameter `rast` pri prechode z tréningu – nič sa o nej neukladá.
+- Adresa `?bezpohybu` vypne animácie (na kontrolné snímky).
 
 ## Technológia
 - Vite + čistý JavaScript (ES moduly), GSAP. Testy: Vitest.

@@ -1,0 +1,105 @@
+/* ==========================================================
+   Živá záhrada
+   ========================================================== */
+
+.scena {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 28px;
+  border: 1px solid var(--hrana);
+  box-shadow: var(--tien-velky);
+  background: #d9c79f;
+  /* Na šírku: široký obraz; na výšku: vyšší výrez */
+  height: clamp(260px, 52vh, 560px);
+  touch-action: manipulation;
+}
+
+@media (orientation: landscape) and (min-width: 900px) {
+  .scena {
+    height: clamp(300px, 54vh, 620px);
+  }
+}
+
+.scena__malba,
+.scena__vietor,
+.scena__zalozna {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.scena__zalozna {
+  object-fit: cover;
+  object-position: 50% 66%;
+}
+
+.scena__vietor {
+  pointer-events: none;
+}
+
+/* Kvet */
+.kvet {
+  position: absolute;
+  transform-origin: 55% 83%;
+  pointer-events: none;
+  will-change: transform;
+  filter: drop-shadow(0 2px 2px rgba(60, 45, 20, 0.18));
+}
+
+.kvet__stonka,
+.kvet__cely {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.kvet__puk {
+  position: absolute;
+  left: 35%;
+  top: 7%;
+  width: 30%;
+  aspect-ratio: 2 / 3;
+  transform: rotate(-8deg);
+}
+
+.kvet__puk svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Text pod záhradou */
+.zahrada-text {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  text-align: center;
+}
+
+.zahrada-text__prekvapenie {
+  font-family: var(--font-nadpis);
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--levandula);
+}
+
+/* Náhľad záhrady pre personál */
+.nahlad-dni {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nahlad-dni .moznost {
+  min-height: 60px;
+  min-width: 72px;
+  padding: 10px 14px;
+  place-items: center;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}

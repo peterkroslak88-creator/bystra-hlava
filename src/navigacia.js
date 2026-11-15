@@ -13,6 +13,7 @@ import { hracEditor } from './obrazovky/hrac-editor.js';
 import { vyberObtiaznosti } from './obrazovky/vyber-obtiaznosti.js';
 import { zahrada } from './obrazovky/zahrada.js';
 import { nastavenia } from './obrazovky/nastavenia.js';
+import { nahladZahrady } from './obrazovky/nahlad-zahrady.js';
 
 // rola = kto smie obrazovku vidieť
 const OBRAZOVKY = {
@@ -25,6 +26,7 @@ const OBRAZOVKY = {
   vyberObtiaznosti: { vytvor: vyberObtiaznosti, rola: 'klient' },
   zahrada: { vytvor: zahrada, rola: 'klient' },
   nastavenia: { vytvor: nastavenia, rola: 'klient' },
+  nahladZahrady: { vytvor: nahladZahrady, rola: 'personal' },
 };
 
 let aktualna = null;

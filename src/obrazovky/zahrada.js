@@ -1,23 +1,28 @@
-// Záhrada hráča (dočasná podoba – živá záhrada príde vo fáze 3).
+// Záhrada hráča: z púšte do raja. 1 deň tréningu = 1 krok.
 import { h } from '../dom.js';
-import { hlavicka, nadpis, tlacidlo, krajina, slovoDni } from '../komponenty/spolocne.js';
+import { hlavicka, nadpis, tlacidlo } from '../komponenty/spolocne.js';
 import { VYSVETLIVKY, pozdrav } from '../texty.js';
 import { nacitajHraca, prehladHrania } from '../ulozisko/hraci.js';
 import { relacia, odhlas } from '../relacia.js';
 import { prejdi } from '../navigacia.js';
+import { vytvorScenu } from '../zahrada/scena.js';
+import { textZahrady, textPrekvapenia } from '../zahrada/milniky.js';
 
-export async function zahrada() {
+/**
+ * @param {{rast?: boolean}} data  rast = práve pribudol prvý deň (prehrá sa rast kvetu)
+ */
+export async function zahrada({ rast = false } = {}) {
   const hrac = await nacitajHraca(relacia.hracId);
   if (!hrac) {
     prejdi('uvod');
     return null;
   }
   const { pocetDni } = prehladHrania(hrac);
-  const textZahrady = pocetDni
-    ? `Vaša záhrada rastie už ${pocetDni} ${slovoDni(pocetDni)}.`
-    : 'Záhrada je zatiaľ pustá. Po prvom tréningu v nej vyrastie prvý kvet.';
-
   const oznam = h('p', { class: 'oznam', role: 'status', 'aria-live': 'polite' });
+
+  const obalSceny = h('div', { role: 'img', 'aria-label': `Záhrada. ${textZahrady(pocetDni)}` });
+  const scena = await vytvorScenu(obalSceny, { dni: rast ? 0 : pocetDni });
+  if (rast) setTimeout(() => scena.prehrajRast(), 900);
 
   const el = h(
     'div',
@@ -32,11 +37,18 @@ export async function zahrada() {
         },
       })
     ),
-    h('div', { class: 'krajina-ramik' }, krajina(pocetDni ? 'zahrada.webp' : 'pust.webp')),
+    obalSceny,
     h(
       'div',
-      { class: 'obrazovka-stred' },
-      nadpis(`${pozdrav()}, ${hrac.meno}`, { podnadpis: textZahrady, vysvetlivka: VYSVETLIVKY.zahrada }),
+      { class: 'obrazovka-stred', style: 'padding-top: 24px' },
+      h(
+        'div',
+        { class: 'zahrada-text' },
+        nadpis(`${pozdrav()}, ${hrac.meno}`, {
+          podnadpis: `${textZahrady(pocetDni)} ${textPrekvapenia(pocetDni)}`,
+          vysvetlivka: VYSVETLIVKY.zahrada,
+        })
+      ),
       tlacidlo('Začať dnešný tréning', {
         druh: 'hlavne',
         ikonka: 'lista',
@@ -47,5 +59,5 @@ export async function zahrada() {
       oznam
     )
   );
-  return { el };
+  return { el, zrus: () => scena.zrus() };
 }
