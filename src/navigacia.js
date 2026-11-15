@@ -14,6 +14,8 @@ import { vyberObtiaznosti } from './obrazovky/vyber-obtiaznosti.js';
 import { zahrada } from './obrazovky/zahrada.js';
 import { nastavenia } from './obrazovky/nastavenia.js';
 import { nahladZahrady } from './obrazovky/nahlad-zahrady.js';
+import { trening } from './obrazovky/trening.js';
+import { oblasti } from './obrazovky/oblasti.js';
 
 // rola = kto smie obrazovku vidieť
 const OBRAZOVKY = {
@@ -27,6 +29,8 @@ const OBRAZOVKY = {
   zahrada: { vytvor: zahrada, rola: 'klient' },
   nastavenia: { vytvor: nastavenia, rola: 'klient' },
   nahladZahrady: { vytvor: nahladZahrady, rola: 'personal' },
+  trening: { vytvor: trening, rola: 'klient' },
+  oblasti: { vytvor: oblasti, rola: 'klient' },
 };
 
 let aktualna = null;

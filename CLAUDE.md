@@ -61,7 +61,13 @@ Hra na aktivizáciu a tréning mysle pre klientov zariadenia sociálnych služie
 - Vietor: generovaná tráva a kvety v odkrytej časti, poryvy ako vlna. Paralaxa, ročné obdobia.
 - Kód: `src/zahrada/` – `malba.js` (WebGL shader: prelínanie, horúci vzduch, oblaky), `vietor.js` (canvas: tráva, kvety, kotúľ, častice), `scena.js` (spája všetko, kvet a rast), `milniky.js` (podiel odkrytia podľa dní, texty), `sum.js` (poradové pole – rovnaký vzorec v JS aj GLSL, musia sa zhodovať).
 - Prípravu obrázkov robí `npm run obrazky` (sharp; rembg nie je, Python chýba). Kvet: kľúčovanie bielej len od okraja, aby bledé lupene zostali celé.
-- Animácia rastu kvetu sa prehrá len cez parameter `rast` pri prechode z tréningu – nič sa o nej neukladá.
+- Animácia rastu (kvet pri prvom dni, inak rozšírenie záhrady) sa prehrá len cez parameter `rastOd` pri prechode z tréningu – nič sa o nej neukladá.
+- Deň hrania sa zapíše po dokončení prvej úlohy v ten deň (denný tréning aj samostatná oblasť). Záhrada rastie max. raz za deň.
+
+## Hra – kód
+- `src/hra/oblasti.js` (6 oblastí, rastlina a farba, denný tréning), `src/hra/logika.js` (čistá logika a parametre úrovní 1–10, testovaná), `src/hra/obsah/` (príslovia, slová, spomienky, skupiny – len overené slovenské texty), `src/hra/ulohy/` (zobrazenie úloh).
+- Úspešnosť (`spravne/spolu`) žije len v pamäti počas úlohy, uloží sa iba nová úroveň.
+- Pri pridávaní obsahu: príslovie má jedno `{slovo}`; spomienka má 4 možnosti a prvá je správna; slovo nesmie byť v dvoch skupinách.
 - Adresa `?bezpohybu` vypne animácie (na kontrolné snímky).
 
 ## Technológia

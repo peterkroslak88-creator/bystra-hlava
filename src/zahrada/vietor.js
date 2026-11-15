@@ -78,8 +78,9 @@ export function vytvorVietor(platno, { kotul }) {
     });
   }
   kvety.sort((a, b) => a.v - b.v);
+  // Suché trsy v púšti sú vypnuté (pôsobili umelo; maľba má vlastné suché trávy)
   const trsy = [];
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 0; i++) {
     const u = r();
     const v = 0.74 + 0.26 * Math.sqrt(r());
     const hlbka = (v - 0.6) / 0.4;

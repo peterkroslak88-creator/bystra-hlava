@@ -9,6 +9,7 @@ import './styly/zaklad.css';
 import './styly/komponenty.css';
 import './styly/obrazovky.css';
 import './styly/zahrada.css';
+import './styly/hra.css';
 
 import { PATICKA } from './texty.js';
 import { prejdi } from './navigacia.js';
