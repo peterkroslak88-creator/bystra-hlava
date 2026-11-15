@@ -1,0 +1,451 @@
+/* ==========================================================
+   Komponenty: vysvetlivky „i“, klávesnica PIN, karty hráčov,
+   výber obťažnosti, potvrdzovacie okno
+   ========================================================== */
+
+/* ---------- Vysvetlivka „i“ ---------- */
+
+.info {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.info--otvorena {
+  z-index: 60;
+}
+
+.info__tlacidlo {
+  /* Plocha na ťuknutie 48 × 48 px, aj keď je znak menší */
+  width: 48px;
+  height: 48px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  margin: -6px 0;
+  border: 0;
+  background: transparent;
+  color: var(--levandula);
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.info__znak {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background: rgba(251, 247, 236, 0.85);
+  font-family: var(--font-nadpis);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: background-color 0.4s ease;
+}
+
+.info__tlacidlo:hover .info__znak,
+.info__tlacidlo[aria-expanded='true'] .info__znak {
+  background: var(--levandula-svetla);
+}
+
+.bublina {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: min(360px, calc(100vw - 32px));
+  padding: 18px 20px 14px;
+  background: var(--zrno), #fdfaf2;
+  border: 1px solid var(--hrana);
+  border-radius: 18px;
+  box-shadow: var(--tien-velky);
+  text-align: left;
+  font-family: var(--font-text);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--atrament);
+  white-space: normal;
+}
+
+.bublina[hidden] {
+  display: none;
+}
+
+.bublina__nazov {
+  font-family: var(--font-nadpis);
+  font-weight: 600;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  margin-bottom: 6px;
+  color: var(--levandula);
+}
+
+.bublina__akcie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-top: 10px;
+  margin-left: -10px;
+}
+
+/* ---------- Klávesnica na PIN ---------- */
+
+.pin {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+}
+
+.pin__bodky {
+  display: flex;
+  gap: 18px;
+  min-height: 34px;
+  align-items: center;
+}
+
+.pin__bodka {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(59, 88, 50, 0.55);
+  background: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.pin__bodka--plna {
+  background: var(--zelen);
+  border-color: var(--zelen);
+}
+
+.pin__klavesnica {
+  display: grid;
+  grid-template-columns: repeat(3, 92px);
+  gap: 14px;
+}
+
+.pin__klaves {
+  width: 92px;
+  height: 92px;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  border: 1.5px solid var(--hrana);
+  background: var(--zrno), linear-gradient(170deg, #fffcf3, #f5eedc);
+  box-shadow: var(--tien);
+  font-family: var(--font-nadpis);
+  font-size: 2.3rem;
+  font-weight: 600;
+  /* Rovné (nie „staromódne“) číslice, aby sa 1 nepodobala na I */
+  font-variant-numeric: lining-nums;
+  font-feature-settings: 'lnum' 1;
+  color: var(--atrament);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 0.25s ease;
+}
+
+.pin__klaves:active {
+  background: var(--zelen-svetla);
+}
+
+.pin__klaves--text {
+  font-family: var(--font-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--zelen-tmava);
+  gap: 0;
+  align-content: center;
+}
+
+.pin__klaves--text svg {
+  width: 28px;
+  height: 28px;
+}
+
+.pin__sprava {
+  min-height: 1.6em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--naprstnik);
+}
+
+.pin__sprava--ok {
+  color: var(--zelen);
+}
+
+/* ---------- Karty hráčov na úvodnej obrazovke ---------- */
+
+.hraci-mriezka {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 22px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hraci-mriezka > li {
+  display: grid;
+}
+
+.hrac-karta {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 22px 14px 18px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.hrac-karta:hover {
+  box-shadow: var(--tien-velky);
+  border-color: rgba(59, 88, 50, 0.35);
+}
+
+.hrac-karta__obrazok {
+  width: 120px;
+  height: 160px;
+}
+
+.hrac-karta__meno {
+  font-family: var(--font-nadpis);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.15;
+  word-break: break-word;
+}
+
+/* ---------- Riadky hráčov u personálu ---------- */
+
+.zoznam-hracov {
+  display: grid;
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.hrac-riadok {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding: 16px 20px;
+}
+
+.hrac-riadok__obrazok {
+  width: 64px;
+  height: 86px;
+}
+
+.hrac-riadok__meno {
+  font-family: var(--font-nadpis);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+@media (max-width: 560px) {
+  .hrac-riadok {
+    grid-template-columns: 56px 1fr;
+  }
+  .hrac-riadok > .tlacidlo {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------- Výber (obťažnosť, rastlina) ---------- */
+
+.vyber {
+  display: grid;
+  gap: 16px;
+}
+
+.vyber--tri {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.moznost {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  min-height: 120px;
+  padding: 20px 22px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 1.5px solid var(--hrana);
+  border-radius: var(--zaoblenie);
+  background: var(--zrno), linear-gradient(160deg, #fdfaf1, var(--papier-svetly));
+  box-shadow: var(--tien);
+  transition: border-color 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.moznost:hover {
+  border-color: rgba(59, 88, 50, 0.4);
+}
+
+.moznost[aria-checked='true'] {
+  border: 2.5px solid var(--zelen);
+  background: var(--zrno), linear-gradient(160deg, #f4f6ea, var(--zelen-svetla));
+  box-shadow: var(--tien-velky);
+}
+
+.moznost__hlavicka {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.moznost__nazov {
+  font-family: var(--font-nadpis);
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.moznost__znacka {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--zelen);
+  visibility: hidden;
+}
+
+.moznost[aria-checked='true'] .moznost__znacka {
+  visibility: visible;
+}
+
+/* Obťažnosť je karta s tlačidlom výberu a vysvetlivkou vedľa seba */
+.obtiaznost-karta {
+  position: relative;
+}
+
+.obtiaznost-karta .info {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.obtiaznost-karta .moznost {
+  width: 100%;
+  height: 100%;
+  padding-right: 64px;
+}
+
+.rastliny-vyber {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: 12px;
+}
+
+.rastlina-moznost {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 12px 6px 10px;
+  min-height: 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.rastlina-moznost svg {
+  width: 66px;
+  height: 88px;
+}
+
+/* ---------- Potvrdzovacie okno priamo na stránke ---------- */
+
+.dialog-pozadie {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(41, 48, 31, 0.38);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.dialog {
+  width: min(560px, 100%);
+  display: grid;
+  gap: 18px;
+}
+
+.dialog__akcie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* ---------- Oznámenie (napr. „Uložené“) ---------- */
+
+.oznam {
+  min-height: 1.6em;
+  font-weight: 700;
+  color: var(--zelen);
+}
+
+/* ---------- Zarovnanie obsahu obrazoviek ---------- */
+
+.obrazovka-stred {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 24px;
+  padding-top: 12px;
+}
+
+.obrazovka-stred .nadpis-s-citanim {
+  justify-items: center;
+}
+
+.obrazovka-stred .nadpis-s-citanim__riadok {
+  justify-content: center;
+}
+
+.sekcia {
+  display: grid;
+  gap: 18px;
+  margin-top: 36px;
+}
+
+.sekcia__hlavicka {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.zoznam-bodky {
+  margin: 0;
+  padding-left: 1.2em;
+  display: grid;
+  gap: 6px;
+}
+
+.zoznam-bodky li::marker {
+  color: var(--luka);
+}
+
+.prazdne {
+  text-align: center;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 36px 20px;
+}

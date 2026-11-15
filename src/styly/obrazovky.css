@@ -1,0 +1,84 @@
+/* ==========================================================
+   Rozloženie jednotlivých obrazoviek
+   ========================================================== */
+
+/* Úvod */
+.uvod__obsah {
+  display: grid;
+  gap: 28px;
+  margin-top: -12px;
+}
+
+/* Prihlásenie (PIN) – na šírku vedľa seba, na výšku pod sebou */
+.prihlasenie {
+  display: grid;
+  gap: 28px;
+  justify-items: center;
+  text-align: center;
+  padding-top: 8px;
+}
+
+.prihlasenie__text {
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+}
+
+.prihlasenie__text .nadpis-s-citanim {
+  justify-items: center;
+}
+
+.prihlasenie__text .nadpis-s-citanim__riadok {
+  justify-content: center;
+}
+
+.prihlasenie__rastlina {
+  width: 110px;
+  height: 146px;
+}
+
+.prihlasenie__klavesnica {
+  padding: 28px 32px 20px;
+}
+
+@media (min-width: 900px) and (orientation: landscape) {
+  .prihlasenie {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 48px;
+    min-height: 62vh;
+  }
+}
+
+@media (max-width: 400px) {
+  .pin__klavesnica {
+    grid-template-columns: repeat(3, 84px);
+    gap: 12px;
+  }
+  .pin__klaves {
+    width: 84px;
+    height: 84px;
+  }
+  .prihlasenie__klavesnica {
+    padding: 20px 16px 14px;
+  }
+}
+
+/* Záhrada (dočasná) – maľba v rámiku */
+.krajina-ramik {
+  margin-top: 8px;
+}
+
+.krajina-ramik .krajina {
+  margin: 0;
+  height: clamp(220px, 38vh, 520px);
+  border-radius: 28px;
+  -webkit-mask-image: none;
+  mask-image: none;
+  box-shadow: var(--tien-velky);
+  border: 1px solid var(--hrana);
+}
+
+.krajina-ramik + .obrazovka-stred {
+  padding-top: 28px;
+}
