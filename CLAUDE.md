@@ -64,6 +64,11 @@ Hra na aktivizáciu a tréning mysle pre klientov zariadenia sociálnych služie
 - Animácia rastu (kvet pri prvom dni, inak rozšírenie záhrady) sa prehrá len cez parameter `rastOd` pri prechode z tréningu – nič sa o nej neukladá.
 - Deň hrania sa zapíše po dokončení prvej úlohy v ten deň (denný tréning aj samostatná oblasť). Záhrada rastie max. raz za deň.
 
+## Personál – kód
+- `src/ulozisko/zaloha.js`: záloha (JSON so značkou `bystra-hlava-zaloha`, verzia 1), obnova s kontrolou a čistením každého hráča, vymazanie všetkého.
+- Upozornenia: `hraciNaUpozornenie()` v `hraci.js`, počet dní v nastavení `dniUpozornenia` (predvolene 5).
+- Skupinový kvíz: `src/obrazovky/kviz.js`, otázky v `src/hra/obsah/kviz.js` + známejšie Spomienky. Body len v pamäti.
+
 ## Hra – kód
 - `src/hra/oblasti.js` (6 oblastí, rastlina a farba, denný tréning), `src/hra/logika.js` (čistá logika a parametre úrovní 1–10, testovaná), `src/hra/obsah/` (príslovia, slová, spomienky, skupiny – len overené slovenské texty), `src/hra/ulohy/` (zobrazenie úloh).
 - Úspešnosť (`spravne/spolu`) žije len v pamäti počas úlohy, uloží sa iba nová úroveň.

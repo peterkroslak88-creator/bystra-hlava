@@ -234,6 +234,21 @@ export function otazkySpomienok(pocet, stupen, pocetMoznosti, nahoda = Math.rand
   });
 }
 
+// ---------- Skupinový kvíz ----------
+
+export const PISMENA_MOZNOSTI = ['A', 'B', 'C', 'D'];
+
+/**
+ * Pripraví otázky kvízu: každá má 4 zamiešané možnosti a index správnej.
+ * @param {Array<{otazka: string, moznosti: string[]}>} zasoba  prvá možnosť je správna
+ */
+export function pripravKviz(zasoba, pocet = 10, nahoda = Math.random) {
+  return vyber(zasoba, pocet, nahoda).map((q) => {
+    const moznosti = zamiesaj(q.moznosti, nahoda);
+    return { otazka: q.otazka, moznosti, spravna: moznosti.indexOf(q.moznosti[0]) };
+  });
+}
+
 // ---------- Otočené tvary ----------
 
 // Tvary zo štvorčekov (súradnice [x, y]); všetky sú nesúmerné,

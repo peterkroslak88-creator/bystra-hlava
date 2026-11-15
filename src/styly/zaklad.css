@@ -57,6 +57,8 @@ html {
   /* 1rem = 20 px, aby bol všetok text dobre čitateľný */
   font-size: 125%;
   -webkit-text-size-adjust: 100%;
+  /* Rovné číslice aj v serifovom písme (lepšie čitateľné) */
+  font-variant-numeric: lining-nums;
   background: var(--papier);
 }
 
@@ -128,6 +130,11 @@ p {
 
 .jemny-text {
   color: var(--atrament-jemny);
+}
+
+/* Skrytý prvok je naozaj skrytý, aj keď má vlastné rozloženie */
+[hidden] {
+  display: none !important;
 }
 
 .skryte {

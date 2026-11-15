@@ -442,6 +442,52 @@
   color: var(--luka);
 }
 
+/* Upozornenia u personálu */
+.upozornenie__nadpis {
+  font-weight: 700;
+}
+
+.upozornenia {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.upozornenie {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px 8px 8px;
+  border-radius: 14px;
+  background: var(--okra-svetla);
+  border: 1px solid rgba(117, 83, 26, 0.25);
+}
+
+.upozornenie__obrazok {
+  flex: none;
+  width: 34px;
+  height: 46px;
+}
+
+.pocitadlo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding-top: 8px;
+  border-top: 1px solid var(--hrana);
+}
+
+.pocitadlo__hodnota {
+  min-width: 5.5em;
+  text-align: center;
+  font-family: var(--font-nadpis);
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
 .prazdne {
   text-align: center;
   display: grid;

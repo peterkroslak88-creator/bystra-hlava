@@ -620,6 +620,123 @@
   --pozadie: var(--oblast-svetla);
 }
 
+/* Skupinový kvíz – veľké písmo na projektor */
+.kviz-timy {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.kviz__karta {
+  display: grid;
+  gap: 24px;
+  padding: clamp(24px, 4vw, 48px);
+}
+
+.kviz__plocha {
+  display: grid;
+  gap: 28px;
+}
+
+.kviz__poradie {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--levandula);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.kviz__otazka {
+  font-size: clamp(2.2rem, 1.2rem + 3.4vw, 4rem);
+  line-height: 1.12;
+}
+
+.kviz__moznosti {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  gap: 16px;
+}
+
+.kviz__moznost {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px 18px;
+  min-height: 96px;
+  padding: 16px 22px;
+  border-radius: 20px;
+  border: 1.5px solid var(--hrana);
+  background: var(--zrno), linear-gradient(170deg, #fffcf3, #f6efdd);
+  font-size: clamp(1.4rem, 1rem + 1.4vw, 2.2rem);
+  font-weight: 700;
+  transition: background-color 0.5s ease, opacity 0.5s ease;
+}
+
+.kviz__pismeno {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background: var(--levandula-svetla);
+  color: var(--levandula);
+  font-family: var(--font-nadpis);
+}
+
+.kviz__moznost--spravna {
+  border: 4px solid var(--zelen);
+  background: #e7efd9;
+}
+
+.kviz__moznost--tlmena {
+  opacity: 0.7;
+}
+
+.kviz__ovladanie {
+  display: grid;
+  gap: 14px;
+}
+
+.kviz__bod {
+  --okraj-farba: var(--tim);
+  --text: var(--tim);
+}
+
+.kviz__bod[aria-pressed='true'] {
+  --pozadie: var(--tim);
+  --text: #fffaf6;
+}
+
+.kviz__tabula {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.kviz__tim {
+  display: grid;
+  gap: 2px;
+  padding: 14px 20px;
+  border-radius: 18px;
+  background: #fffcf3;
+  border: 1.5px solid var(--hrana);
+  border-left: 8px solid var(--tim);
+}
+
+.kviz__tim-nazov {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.kviz__tim-body {
+  font-family: var(--font-nadpis);
+  font-size: 2.2rem;
+  font-weight: 600;
+  font-variant-numeric: lining-nums;
+}
+
 /* Padajúce lupene */
 .lupene {
   position: fixed;

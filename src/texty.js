@@ -29,6 +29,22 @@ export const VYSVETLIVKY = {
     nazov: 'Čo appka ukladá',
     text: 'Appka si pamätá len prezývku, obrázok, zabezpečený PIN, dni, keď sa hralo, a nastavenia hry. Odpovede sa nikde neukladajú a nič neodchádza mimo tento tablet.',
   },
+  upozornenia: {
+    nazov: 'Upozornenia',
+    text: 'Ukážu hráčov, ktorí sa niekoľko dní nezapojili do hry, aby ste ich mohli pozvať. Počet dní si nastavíte sami.',
+  },
+  kviz: {
+    nazov: 'Skupinový kvíz',
+    text: 'Kvíz pre 2 až 4 tímy na projektor alebo veľkú obrazovku. Moderátor číta otázky, odkryje odpoveď a pripíše body. Nič sa neukladá.',
+  },
+  zaloha: {
+    nazov: 'Záloha a obnova',
+    text: 'Záloha uloží hráčov a nastavenia do súboru. Ten môžete nahrať na inom tablete alebo po výmene tabletu. Obnova nahradí všetky súčasné údaje.',
+  },
+  vymazanie: {
+    nazov: 'Vymazanie údajov',
+    text: 'Vymaže všetkých hráčov, ich záhrady aj PIN personálu. Appka sa vráti do stavu po inštalácii. Predtým si urobte zálohu.',
+  },
   nahladZahrady: {
     nazov: 'Náhľad záhrady',
     text: 'Tu si môžete vyskúšať, ako záhrada vyzerá po rôznom počte dní. Slúži na predvádzanie a nič nemení.',

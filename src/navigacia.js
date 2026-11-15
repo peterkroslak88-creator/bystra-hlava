@@ -16,6 +16,7 @@ import { nastavenia } from './obrazovky/nastavenia.js';
 import { nahladZahrady } from './obrazovky/nahlad-zahrady.js';
 import { trening } from './obrazovky/trening.js';
 import { oblasti } from './obrazovky/oblasti.js';
+import { kvizNastavenie, kviz } from './obrazovky/kviz.js';
 
 // rola = kto smie obrazovku vidieť
 const OBRAZOVKY = {
@@ -31,6 +32,8 @@ const OBRAZOVKY = {
   nahladZahrady: { vytvor: nahladZahrady, rola: 'personal' },
   trening: { vytvor: trening, rola: 'klient' },
   oblasti: { vytvor: oblasti, rola: 'klient' },
+  kvizNastavenie: { vytvor: kvizNastavenie, rola: 'personal' },
+  kviz: { vytvor: kviz, rola: 'personal' },
 };
 
 let aktualna = null;

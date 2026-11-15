@@ -151,6 +151,45 @@ export function popisObtiaznosti(hrac) {
   return hrac.obtiaznost ? OBTIAZNOSTI[hrac.obtiaznost].nazov : 'vyberie si pri prvom prihlásení';
 }
 
+// ---------- Upozornenia pre personál ----------
+
+export const PREDVOLENE_DNI_UPOZORNENIA = 5;
+
+export async function dniUpozornenia() {
+  return (await db.citajNastavenie('dniUpozornenia')) ?? PREDVOLENE_DNI_UPOZORNENIA;
+}
+
+export async function nastavDniUpozornenia(n) {
+  const cislo = Math.min(60, Math.max(1, Math.round(n)));
+  await db.ulozNastavenie('dniUpozornenia', cislo);
+  return cislo;
+}
+
+function dniMedzi(odDna, doDna) {
+  const [r1, m1, d1] = odDna.split('-').map(Number);
+  const [r2, m2, d2] = doDna.split('-').map(Number);
+  return Math.round((Date.UTC(r2, m2 - 1, d2) - Date.UTC(r1, m1 - 1, d1)) / 86400000);
+}
+
+/**
+ * Hráči, ktorí už hrali, ale aspoň N dní sa nezapojili do hry.
+ * Hráči, ktorí ešte nehrali, sa vrátia zvlášť (nevieme, odkedy čakajú).
+ */
+export function hraciNaUpozornenie(hraci, n, dnes = dnesnyDen()) {
+  const dlhoBezHry = [];
+  const zatialNehrali = [];
+  for (const hrac of hraci) {
+    const { naposledy } = prehladHrania(hrac);
+    if (!naposledy) zatialNehrali.push(hrac);
+    else {
+      const dni = dniMedzi(naposledy, dnes);
+      if (dni >= n) dlhoBezHry.push({ hrac, dni, naposledy });
+    }
+  }
+  dlhoBezHry.sort((a, b) => b.dni - a.dni);
+  return { dlhoBezHry, zatialNehrali };
+}
+
 // ---------- Personál ----------
 
 export async function maPersonalPin() {
