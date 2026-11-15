@@ -6,6 +6,7 @@ import { skupinaVolieb } from '../komponenty/volba.js';
 import { prejdi } from '../navigacia.js';
 import { vytvorScenu } from '../zahrada/scena.js';
 import { textZahrady, textPrekvapenia, PLNA_ZAHRADA } from '../zahrada/milniky.js';
+import { DOBY } from '../zahrada/svetlo.js';
 
 const DNI = [0, 1, 5, 7, 10, 14, 15, 21, 30, 45];
 
@@ -51,6 +52,14 @@ export async function nahladZahrady() {
       { class: 'karta stlpec' },
       h('h2', {}, 'Počet dní tréningu'),
       volba.el,
+      h('h2', {}, 'Denná doba'),
+      skupinaVolieb({
+        popis: 'Denná doba',
+        trieda: 'nahlad-dni',
+        vybrana: 'teraz',
+        moznosti: [{ hodnota: 'teraz', obsah: 'Podľa hodín' }, ...DOBY.map((d) => ({ hodnota: d.hodina, obsah: d.nazov }))],
+        priZmene: (hodnota) => scena.nastavHodinu(hodnota === 'teraz' ? null : hodnota),
+      }).el,
       h(
         'div',
         { class: 'riadok' },

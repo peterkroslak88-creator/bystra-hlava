@@ -7,6 +7,7 @@ import { vytvorMalbu } from './malba.js';
 import { vytvorVietor, vietor } from './vietor.js';
 import { STRED } from './sum.js';
 import { odkrytie, rocneObdobie } from './milniky.js';
+import { svetloDna, hodinaTeraz } from './svetlo.js';
 
 const POMER = 2; // šírka : výška malieb
 const PRESAH = 1.06; // rezerva na paralaxu
@@ -63,7 +64,8 @@ function rozlozenie(W, H) {
  * @param {HTMLElement} obal  prvok, do ktorého sa scéna vloží
  * @param {{dni?: number, obdobie?: string}} nastavenie
  */
-export async function vytvorScenu(obal, { dni = 0, obdobie = rocneObdobie() } = {}) {
+export async function vytvorScenu(obal, { dni = 0, obdobie = rocneObdobie(), hodina = null } = {}) {
+  let pevnaHodina = hodina; // null = skutočný čas
   const pohyb = pohybPovoleny();
   const [pust, zahrada, kvetImg, kotul] = await Promise.all([
     nacitajObrazok('./obrazky/pust.webp'),
@@ -162,6 +164,8 @@ export async function vytvorScenu(obal, { dni = 0, obdobie = rocneObdobie() } = 
     paralaxa.y += (paralaxa.cielY - paralaxa.y) * 0.05;
     const posun = (sila) => [paralaxa.x * sila, paralaxa.y * sila];
 
+    // Svetlo podľa dennej doby (skutočný čas, alebo pevne zvolená hodina v náhľade)
+    const svetlo = svetloDna(pevnaHodina ?? hodinaTeraz());
     const hlava = [STRED.x + (KVET.hlavaX - KVET.zakladX) * VYSKA_KVETU * KVET.pomer, STRED.y - (KVET.zemY - KVET.hlavaY) * VYSKA_KVETU];
     if (malba) {
       malba.kresli({
@@ -173,7 +177,8 @@ export async function vytvorScenu(obal, { dni = 0, obdobie = rocneObdobie() } = 
         svetlo: stav.svetlo,
         pohyb: pohyb ? 1 : 0,
         hlava,
-        nadych: NADYCH[obdobie],
+        nadych: NADYCH[obdobie].map((v, i) => v * svetlo.nadych[i]),
+        hviezdy: svetlo.hviezdy,
       });
     } else {
       const p = Math.max(0, stav.R) * 60;
@@ -191,6 +196,8 @@ export async function vytvorScenu(obal, { dni = 0, obdobie = rocneObdobie() } = 
       pohyb: pohyb ? 1 : 0,
       obdobie,
       kotul: stav.dni === 0,
+      vtaky: stav.dni >= 7,
+      noc: svetlo.hviezdy,
     });
   }
   snimka = requestAnimationFrame(kresli);
@@ -226,6 +233,12 @@ export async function vytvorScenu(obal, { dni = 0, obdobie = rocneObdobie() } = 
 
   return {
     // Nastaví počet dní; s animáciou sa záhrada pomaly rozšíri
+    // Pevná denná doba na predvádzanie (null = podľa hodín tabletu)
+    nastavHodinu(h) {
+      pevnaHodina = h;
+      prekreslit = true;
+    },
+
     nastavDni(n, { animuj = false } = {}) {
       animacia?.kill();
       stav.dni = n;

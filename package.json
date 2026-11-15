@@ -12,7 +12,8 @@
     "obrazky": "node nastroje/priprav-obrazky.mjs",
     "ikony": "node nastroje/ikony.mjs",
     "kontrola": "node nastroje/kontrola.mjs",
-    "logo": "node nastroje/logo.mjs"
+    "logo": "node nastroje/logo.mjs",
+    "ukazka": "node nastroje/ukazka-zahrady.mjs"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.3.0",

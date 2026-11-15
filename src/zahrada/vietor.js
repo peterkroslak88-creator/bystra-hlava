@@ -296,6 +296,82 @@ export function vytvorVietor(platno, { kotul }) {
     }
   }
 
+  // ---------- Trblietanie na lúke (cez deň iskričky svetla, večer svetlušky) ----------
+  const iskry = Array.from({ length: 22 }, () => {
+    const u = 0.06 + Math.random() * 0.88;
+    const v = 0.52 + Math.random() * 0.44;
+    return { u, v, faza: Math.random() * 6.28, rychlost: 0.5 + Math.random() * 0.6, p: pole(u, v) };
+  });
+
+  function kresliTrblietanie(rozl, posun, cas, R, noc) {
+    for (const i of iskry) {
+      if (i.p > R - 0.03) continue; // len v rozkvitnutej časti
+      const sila = Math.max(0, Math.sin(cas * i.rychlost + i.faza)) ** (noc > 0.3 ? 3 : 10);
+      if (sila < 0.03) continue;
+      // Svetlušky sa večer pomaly vznášajú
+      const du = noc > 0.3 ? Math.sin(cas * 0.23 + i.faza) * 0.012 : 0;
+      const dv = noc > 0.3 ? Math.cos(cas * 0.19 + i.faza * 1.7) * 0.01 - 0.02 : 0;
+      const [x, y] = naObrazovku(rozl, posun, i.u + du, i.v + dv);
+      const polomer = (noc > 0.3 ? 0.012 : 0.007) * rozl.dH;
+      const g = ctx.createRadialGradient(x, y, 0, x, y, polomer);
+      const farba = noc > 0.3 ? '255,236,150' : '255,252,235';
+      g.addColorStop(0, `rgba(${farba},${(noc > 0.3 ? 0.85 : 0.7) * sila})`);
+      g.addColorStop(1, `rgba(${farba},0)`);
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x, y, polomer, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // ---------- Kŕdeľ vtákov v diaľke (občas pomaly preletí oblohou) ----------
+  const krdel = { aktivny: false, dalsi: 12 + Math.random() * 10, start: 0, trvanie: 34, v: 0.16, smer: 1, vtaky: [] };
+
+  function kresliVtaky(rozl, posun, cas, povolene) {
+    if (!krdel.aktivny) {
+      if (povolene && cas > krdel.dalsi) {
+        const pocet = 4 + Math.floor(Math.random() * 4);
+        Object.assign(krdel, {
+          aktivny: true,
+          start: cas,
+          trvanie: 30 + Math.random() * 12,
+          v: 0.2 + Math.random() * 0.07, // v pásme oblohy, ktoré je vždy v zábere
+          smer: Math.random() < 0.5 ? 1 : -1,
+          // Voľný klin: každý vták má svoje miesto a vlastný rytmus krídel
+          vtaky: Array.from({ length: pocet }, (_, i) => {
+            const rad = Math.ceil(i / 2);
+            const strana = i % 2 ? 1 : -1;
+            return { dx: -rad * 0.016 + (Math.random() - 0.5) * 0.006, dy: strana * rad * 0.009 + (Math.random() - 0.5) * 0.004, faza: Math.random() * 6.28 };
+          }),
+        });
+      }
+      return;
+    }
+    const f = (cas - krdel.start) / krdel.trvanie;
+    if (f > 1) {
+      krdel.aktivny = false;
+      krdel.dalsi = cas + 45 + Math.random() * 40;
+      return;
+    }
+    const zaciatok = krdel.smer > 0 ? -0.1 : 1.1;
+    const u0 = zaciatok + krdel.smer * f * 1.2;
+    const v0 = krdel.v + Math.sin(f * Math.PI) * -0.02;
+    const rozpatie = 0.011 * rozl.dH;
+    ctx.strokeStyle = 'rgba(52,62,84,0.6)';
+    ctx.lineWidth = Math.max(1, rozl.dH * 0.0022);
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    for (const vt of krdel.vtaky) {
+      const [x, y] = naObrazovku(rozl, posun, u0 + krdel.smer * vt.dx, v0 + vt.dy);
+      const mach = Math.sin(cas * 5.2 + vt.faza); // pomalé mávanie krídel
+      const zdvih = rozpatie * (0.15 + 0.4 * mach);
+      ctx.moveTo(x - rozpatie, y - zdvih);
+      ctx.quadraticCurveTo(x - rozpatie * 0.45, y - zdvih * 0.2 - rozpatie * 0.12, x, y);
+      ctx.quadraticCurveTo(x + rozpatie * 0.45, y - zdvih * 0.2 - rozpatie * 0.12, x + rozpatie, y - zdvih);
+    }
+    ctx.stroke();
+  }
+
   return {
     zmenVelkost(sirka, vyska, dpr) {
       W = sirka;
@@ -390,6 +466,8 @@ export function vytvorVietor(platno, { kotul }) {
         kresliPrach(dt);
         kresliZrnka(dt);
         kresliCastice(s.obdobie, dt, cas);
+        kresliTrblietanie(rozl, posun, cas, R, s.noc || 0);
+        kresliVtaky(rozl, posun, cas, s.vtaky && (s.noc || 0) < 0.5);
       }
     },
   };

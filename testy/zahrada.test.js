@@ -11,6 +11,7 @@ import {
   rocneObdobie,
 } from '../src/zahrada/milniky.js';
 import { pole, STRED } from '../src/zahrada/sum.js';
+import { svetloDna } from '../src/zahrada/svetlo.js';
 
 describe('rast záhrady', () => {
   it('pri 0 dňoch je záhrada pustá', () => {
@@ -48,6 +49,35 @@ describe('rast záhrady', () => {
 
   it('míľniky sú 7, 10, 14, 21, 30 a 45 dní', () => {
     expect(MILNIKY.map((m) => m.den)).toEqual([7, 10, 14, 21, 30, 45]);
+  });
+});
+
+describe('svetlo podľa dennej doby', () => {
+  it('cez deň je svetlo neutrálne a bez hviezd', () => {
+    expect(svetloDna(12)).toEqual({ nadych: [1, 1, 1], hviezdy: 0 });
+  });
+
+  it('podvečer je teplé, v noci chladnejšie s hviezdami', () => {
+    const zlata = svetloDna(18.5);
+    expect(zlata.nadych[0]).toBeGreaterThan(zlata.nadych[2]);
+    const noc = svetloDna(23);
+    expect(noc.hviezdy).toBe(1);
+    expect(noc.nadych[2]).toBeGreaterThan(noc.nadych[0]);
+  });
+
+  it('záhrada nie je nikdy príliš tmavá a prechody sú plynulé', () => {
+    let predtym = svetloDna(0);
+    for (let h = 0; h <= 24; h += 0.1) {
+      const s = svetloDna(h);
+      for (let i = 0; i < 3; i++) {
+        expect(s.nadych[i]).toBeGreaterThanOrEqual(0.6);
+        expect(Math.abs(s.nadych[i] - predtym.nadych[i])).toBeLessThan(0.05);
+      }
+      expect(s.hviezdy).toBeGreaterThanOrEqual(0);
+      expect(s.hviezdy).toBeLessThanOrEqual(1);
+      predtym = s;
+    }
+    expect(svetloDna(24)).toEqual(svetloDna(0));
   });
 });
 

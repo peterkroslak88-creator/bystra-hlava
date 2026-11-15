@@ -25,6 +25,7 @@ uniform float uSvetlo;
 uniform float uPohyb;
 uniform vec2 uHlava;
 uniform vec3 uNadych;
+uniform float uHviezdy;
 ${GLSL_SUM}
 void main(){
   vec2 uv = (vS - uPosun) / uMierka;
@@ -42,8 +43,18 @@ void main(){
   float chvenie = sin(uv.y*260.0 + t*2.6 + sum(uv*vec2(10.0,50.0) + vec2(0.0, t*0.4))*6.0);
   vec2 posunHorucavy = vec2(chvenie*0.0017, chvenie*0.0006) * pas * (1.0 - maska) * uPohyb;
 
+  // Vlny vetra na lúke: tráva sa jemne prelieva (len v strede, chodník a chalúpka stoja)
+  float vlna = sin(uv.x*9.0 - uv.y*4.0 - t*0.9 + sum(uv*vec2(6.0,14.0))*3.0);
+  float lukaPas = smoothstep(0.45, 0.60, uv.y) * smoothstep(0.10, 0.25, uv.x) * (1.0 - smoothstep(0.60, 0.72, uv.x));
+  vec2 posunLuky = vec2(vlna*0.0013, 0.0) * lukaPas * uPohyb;
+
   vec3 pust = texture2D(tPust, uv + posunOblakov + posunHorucavy).rgb;
-  vec3 zahrada = texture2D(tZahrada, uv + posunOblakov).rgb;
+  vec3 zahrada = texture2D(tZahrada, uv + posunOblakov + posunLuky).rgb;
+
+  // Záhrada: sýtejšie farby a svetlé pásy vetra putujúce po tráve
+  float zelen = smoothstep(0.02, 0.12, zahrada.g - max(zahrada.r, zahrada.b));
+  zahrada = mix(vec3(dot(zahrada, vec3(0.299, 0.587, 0.114))), zahrada, 1.14);
+  zahrada += vec3(0.045, 0.055, 0.015) * vlna * zelen * smoothstep(0.42, 0.58, uv.y) * uPohyb;
   pust += vec3(0.022, 0.018, 0.008) * pas * (chvenie*0.5 + 0.5) * uPohyb;
 
   // Piesok pri kvete akoby zvlhol
@@ -53,9 +64,42 @@ void main(){
 
   vec3 farba = mix(pust, zahrada, maska);
 
-  // Pomaly plávajúce tiene oblakov na zemi
-  float tien = smoothstep(0.45, 0.75, fbm(uv*vec2(2.2,4.0) + vec2(t*0.012, t*0.004)));
-  farba *= 1.0 - 0.07*tien*smoothstep(0.35, 0.5, uv.y)*uPohyb;
+  // Kde je obloha: modré a biele miesta v hornej časti (nie stromy a chalúpka)
+  float oblohaFarba = smoothstep(0.78, 0.90, farba.b / max(farba.g, 0.001));
+  float stranyZahrady = smoothstep(0.10, 0.22, uv.x) * (1.0 - smoothstep(0.74, 0.86, uv.x));
+  float nebo = oblohaFarba * (1.0 - smoothstep(0.24, 0.33, uv.y)) * mix(1.0, stranyZahrady, maska);
+
+  // Hviezdy pri súmraku a v noci (jemne sa trblietajú)
+  vec2 mriezka = uv * vec2(260.0, 130.0);
+  vec2 bunka = floor(mriezka);
+  float jeHviezda = step(0.986, hash(bunka));
+  float blizko = 1.0 - smoothstep(0.0, 0.32, length(fract(mriezka) - 0.5));
+  float trblet = 0.65 + 0.35 * sin(t*1.3 + hash(bunka + 7.0)*40.0);
+  // (pripočítajú sa až po farebnom nádychu, aby svietili aj na tmavšej oblohe; nie cez biele oblaky)
+  float hviezda = jeHviezda * blizko * trblet * uHviezdy * nebo * (1.0 - smoothstep(0.62, 0.85, dot(farba, vec3(0.333))));
+
+  // Veľké kopovité oblaky, ktoré pomaly plávajú po oblohe
+  vec2 po = uv * vec2(2.6, 5.5) + vec2(-t*0.010, 0.0);
+  float hustota = fbm(po);
+  float oblak = smoothstep(0.50, 0.70, hustota);
+  float spodok = smoothstep(0.50, 0.72, fbm(po + vec2(0.03, -0.10)));
+  vec3 farbaOblaku = mix(vec3(1.0, 0.985, 0.95), vec3(0.78, 0.83, 0.92), clamp(spodok - oblak*0.45 + 0.25, 0.0, 1.0) * 0.8);
+  farba = mix(farba, farbaOblaku, oblak * nebo * 0.72);
+  hviezda *= 1.0 - oblak;
+
+  // Jemná hmla v diaľke nad obzorom záhrady
+  float dialka = smoothstep(0.24, 0.31, uv.y) * (1.0 - smoothstep(0.34, 0.50, uv.y));
+  farba = mix(farba, vec3(0.82, 0.88, 0.95), 0.10 * dialka * maska);
+
+  // Tiene oblakov a slnečné škvrny putujúce po kopcoch a lúke
+  float zem = smoothstep(0.33, 0.48, uv.y);
+  float tien = smoothstep(0.42, 0.72, fbm(uv*vec2(1.8,3.4) + vec2(-t*0.012, t*0.004)));
+  farba *= 1.0 - 0.16*tien*zem;
+  farba *= 1.0 + 0.06*(1.0 - tien)*zem;
+
+  // Slnečné lúče spoza oblakov (len nad rozkvitnutou záhradou)
+  float luce = smoothstep(0.55, 0.90, sum(vec2((uv.x + uv.y*0.55)*7.0 - t*0.012, 1.7)));
+  farba += vec3(1.0, 0.93, 0.74) * luce * 0.075 * (1.0 - smoothstep(0.25, 0.80, uv.y)) * maska * (1.0 - uHviezdy);
 
   // Teplé svetlo pri rozkvitnutí kvetu
   vec2 dd = (uv - uHlava) * vec2(2.0, 1.0);
@@ -63,6 +107,7 @@ void main(){
 
   // Ročné obdobie a jemná vineta
   farba *= uNadych;
+  farba += vec3(1.0, 0.97, 0.88) * hviezda * 0.9;
   vec2 v = vS - 0.5;
   farba *= 1.0 - 0.2*dot(v, v);
   gl_FragColor = vec4(farba, 1.0);
@@ -134,6 +179,7 @@ export function vytvorMalbu(platno, obrazky) {
     uPohyb: u('uPohyb'),
     uHlava: u('uHlava'),
     uNadych: u('uNadych'),
+    uHviezdy: u('uHviezdy'),
   };
   gl.uniform1i(U.tPust, 0);
   gl.uniform1i(U.tZahrada, 1);
@@ -159,6 +205,7 @@ export function vytvorMalbu(platno, obrazky) {
       gl.uniform1f(U.uPohyb, s.pohyb);
       gl.uniform2f(U.uHlava, s.hlava[0], s.hlava[1]);
       gl.uniform3f(U.uNadych, ...s.nadych);
+      gl.uniform1f(U.uHviezdy, s.hviezdy || 0);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     },
     zrus() {

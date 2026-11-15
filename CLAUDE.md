@@ -74,6 +74,7 @@ Hra na aktivizáciu a tréning mysle pre klientov zariadenia sociálnych služie
 - 1 deň: rast kvetu (4–5 s, len raz). Ďalej odkrývanie záhrady šumovou maskou od kvetu, plná ~45 dní. Míľniky 7, 10, 14, 21, 30, 45.
 - Vietor: generovaná tráva a kvety v odkrytej časti, poryvy ako vlna. Paralaxa, ročné obdobia.
 - Kód: `src/zahrada/` – `malba.js` (WebGL shader: prelínanie, horúci vzduch, oblaky), `vietor.js` (canvas: tráva, kvety, kotúľ, častice), `scena.js` (spája všetko, kvet a rast), `milniky.js` (podiel odkrytia podľa dní, texty), `sum.js` (poradové pole – rovnaký vzorec v JS aj GLSL, musia sa zhodovať).
+- Atmosféra (len nálada, žiadne prvky z filmov): v `malba.js` plávajúce kopovité oblaky (len na oblohe – maska podľa farby a polohy), tiene oblakov a slnečné škvrny na zemi, vlny vetra na lúke, slnečné lúče, hmla v diaľke, hviezdy. `svetlo.js`: nádych podľa dennej doby (ráno, deň, zlatá hodina, večer; nikdy nie tmavšie než 0,6). `vietor.js`: kŕdeľ vtákov v diaľke (od 7 dní), trblietanie na lúke, večer svetlušky. Ukážkové snímky: `npm run ukazka`.
 - Prípravu obrázkov robí `npm run obrazky` (sharp; rembg nie je, Python chýba). Kvet: kľúčovanie bielej len od okraja, aby bledé lupene zostali celé.
 - Animácia rastu (kvet pri prvom dni, inak rozšírenie záhrady) sa prehrá len cez parameter `rastOd` pri prechode z tréningu – nič sa o nej neukladá.
 - Deň hrania sa zapíše po dokončení prvej úlohy v ten deň (denný tréning aj samostatná oblasť). Záhrada rastie max. raz za deň.
