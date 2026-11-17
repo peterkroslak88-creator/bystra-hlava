@@ -40,6 +40,11 @@ describe('súkromie: nič sa neodosiela', () => {
     const sw = readFileSync(join(KOREN, 'nastroje', 'sw-sablona.js'), 'utf8');
     expect(sw).toMatch(/origin !== self\.location\.origin\) return/);
   });
+
+  it('service worker ukladá vždy čerstvé súbory (nie zo starej pamäte prehliadača)', () => {
+    const sw = readFileSync(join(KOREN, 'nastroje', 'sw-sablona.js'), 'utf8');
+    expect(sw).toMatch(/cache: 'reload'/);
+  });
 });
 
 describe('inštalácia na iPad', () => {

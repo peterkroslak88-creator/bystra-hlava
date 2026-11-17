@@ -9,7 +9,9 @@ self.addEventListener('install', (udalost) => {
   udalost.waitUntil(
     caches
       .open(VERZIA)
-      .then((pamat) => pamat.addAll(SUBORY))
+      // cache: 'reload' = vždy čerstvé súbory zo servera, nie staré z krátkodobej pamäte
+      // prehliadača (inak by sa mohla uložiť stará stránka a appka by ostala na starej verzii)
+      .then((pamat) => pamat.addAll(SUBORY.map((s) => new Request(s, { cache: 'reload' }))))
       .then(() => self.skipWaiting())
   );
 });

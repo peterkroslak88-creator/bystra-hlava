@@ -29,8 +29,9 @@ function offlineRezim() {
         (s) => s !== 'sw.js' && !s.endsWith('.woff')
       );
       const unikatne = [...new Set(subory)];
-      const verzia = createHash('sha256').update(unikatne.join('|')).digest('hex').slice(0, 12);
       const sablona = readFileSync('nastroje/sw-sablona.js', 'utf8');
+      // Verzia sa zmení pri každej zmene súborov aj samotného service workera
+      const verzia = createHash('sha256').update(unikatne.join('|') + sablona).digest('hex').slice(0, 12);
       this.emitFile({
         type: 'asset',
         fileName: 'sw.js',
