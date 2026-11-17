@@ -765,3 +765,121 @@
   width: 100%;
   height: 100%;
 }
+
+/* ---------- Úlohy na telefóne: všetko sa má zmestiť bez dlhého posúvania ---------- */
+
+@media (max-width: 600px) {
+  .uloha {
+    gap: 14px;
+  }
+  .zadanie__text {
+    font-size: 1.3rem;
+    flex-basis: 100%;
+  }
+  .zadanie .tlacidlo {
+    min-height: 48px;
+    margin: -4px 0 -4px -12px;
+  }
+  .volby {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+  }
+  .volby--obrazky,
+  .volby--tvary {
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  }
+  .volby--cisla {
+    grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+  }
+  .volba {
+    min-height: 64px;
+    padding: 10px;
+    font-size: 1.1rem;
+  }
+  .volby--cisla .volba {
+    font-size: 1.8rem;
+  }
+  .volba__obrazok {
+    width: 54px;
+    height: 72px;
+  }
+  .volba .tvar {
+    width: 78px;
+    height: 78px;
+  }
+  .vzor .tvar {
+    width: 104px;
+    height: 104px;
+  }
+  .veta {
+    font-size: 1.6rem;
+    padding: 8px 0;
+  }
+  .rad-cisel {
+    gap: 8px;
+  }
+  .rad-cisel__cislo {
+    min-width: 58px;
+    min-height: 58px;
+    font-size: 1.7rem;
+    border-radius: 14px;
+  }
+  /* Pexeso: na malej karte len obrázok (názov číta čítačka obrazovky) */
+  .pexeso {
+    gap: 8px;
+  }
+  .pexeso__karta {
+    min-height: 72px;
+    border-radius: 12px;
+  }
+  .pexeso__lic span {
+    display: none;
+  }
+  .pexeso__lic svg {
+    width: 74%;
+    max-height: 88%;
+  }
+  .ramik__volba {
+    min-width: 70px;
+    min-height: 52px;
+    padding: 6px 8px;
+    font-size: 0.9rem;
+  }
+  .ramik--volby {
+    aspect-ratio: 1 / 1;
+  }
+  .odozva {
+    padding: 14px 16px;
+  }
+  .odozva__nadpis {
+    font-size: 1.6rem;
+  }
+  .zoznam-nakupu ul {
+    font-size: 1.5rem;
+    line-height: 38px;
+  }
+  .zoznam-nakupu {
+    background: #fffdf5; /* bez liniek – pri menšom písme by nesedeli */
+    padding: 16px 22px 20px;
+  }
+  .postup {
+    margin-bottom: 12px;
+  }
+  .uloha-uvod {
+    gap: 12px;
+  }
+  .hotovo {
+    padding: 24px 12px;
+  }
+}
+
+/* Kvíz: dlhé odpovede sa zalomia, stránka sa neposúva do strán */
+.kviz__karta,
+.kviz__plocha,
+.kviz__moznost > span:last-of-type {
+  min-width: 0;
+}
+
+.kviz__moznost {
+  overflow-wrap: anywhere;
+}

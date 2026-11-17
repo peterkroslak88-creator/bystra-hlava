@@ -11,6 +11,11 @@ gsap.ticker.lagSmoothing(0);
 const bezPohybu = new URLSearchParams(window.location.search).has('bezpohybu');
 if (bezPohybu) document.documentElement.classList.add('bez-pohybu');
 
+// Úsporný režim: Android a slabšie zariadenia dostanú ľahšie efekty
+export const usporne =
+  /Android/i.test(navigator.userAgent) || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
+if (usporne) document.documentElement.classList.add('setri');
+
 export function pohybPovoleny() {
   return !bezPohybu && !obmedzitPohyb.matches;
 }
@@ -24,7 +29,10 @@ export function vstupObrazovky(el) {
   if (nadpisy.length) {
     casovaOs.from(
       nadpisy,
-      { opacity: 0, filter: 'blur(14px)', y: 6, duration: 1.5, ease: 'power2.out', stagger: 0.15, clearProps: 'filter,transform,opacity' },
+      // Rozmazanie je na slabších zariadeniach pomalé – tam sa nadpis len jemne vynorí
+      usporne
+        ? { opacity: 0, y: 6, duration: 1.1, ease: 'power2.out', stagger: 0.15, clearProps: 'transform,opacity' }
+        : { opacity: 0, filter: 'blur(14px)', y: 6, duration: 1.5, ease: 'power2.out', stagger: 0.15, clearProps: 'filter,transform,opacity' },
       0
     );
   }

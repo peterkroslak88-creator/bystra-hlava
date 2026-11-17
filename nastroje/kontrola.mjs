@@ -9,8 +9,14 @@ import { mkdir, writeFile, rm } from 'node:fs/promises';
 import sharp from 'sharp';
 import { auditObrazovky } from './audit-v-prehliadaci.js';
 
-const AUDIT = `(${auditObrazovky.toString()})()`;
-const ORIENTACIE = [
+const AUDIT = `(${auditObrazovky.toString()})(${process.argv.includes('--telefon')})`;
+const TELEFONY = process.argv.includes('--telefon');
+const ORIENTACIE = TELEFONY
+  ? [
+      { nazov: 'telefon-android', zariadenie: devices['Pixel 7'] },
+      { nazov: 'telefon-maly', zariadenie: devices['Galaxy S9+'] },
+    ]
+  : [
   { nazov: 'na-vysku', zariadenie: devices['iPad (gen 7)'] },
   { nazov: 'na-sirku', zariadenie: devices['iPad (gen 7) landscape'] },
 ];
@@ -152,7 +158,7 @@ async function kontroluj({ nazov: orientacia, zariadenie }) {
   await fotka('nastavenia');
 
   // Offline: appka sa musí otvoriť aj bez internetu
-  if (orientacia === 'na-vysku') {
+  if (orientacia === 'na-vysku' || orientacia === 'telefon-android') {
     await s.goto(ADRESA);
     await s.evaluate(() => navigator.serviceWorker?.ready);
     await s.waitForTimeout(1500);

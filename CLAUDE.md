@@ -96,6 +96,13 @@ Hra na aktivizáciu a tréning mysle pre klientov zariadenia sociálnych služie
 - PWA: `public/manifest.webmanifest`, ikony v `public/ikony/` (`npm run ikony`), service worker vzniká pri buildu zo `nastroje/sw-sablona.js` (zoznam súborov dopĺňa plugin vo `vite.config.js`; `ignoreVary` je nutné, inak offline nenájde súbory).
 - Písma len latin + latin-ext (offline balík ~1 MB).
 
+## Výkon a telefóny
+- Android má slabšiu grafiku: `usporne` v `src/dizajn/pohyb.js` (Android, ≤ 4 jadrá alebo ≤ 4 GB) pridá triedu `html.setri` – rastliny bez SVG filtra, bez rozmazania nadpisov a pozadia dialógu.
+- Zrno papiera je hotový obrázok `public/obrazky/zrno.png`; nepoužívať SVG filtre v CSS pozadí ani `background-attachment: fixed` (na Androide veľmi pomalé).
+- Záhrada meria plynulosť a sama znižuje jemnosť kresby (`MIERKY` v `scena.js`), na slabom zariadení kreslí každé druhé steblo.
+- Veľkosť písma: koreň `clamp(16px, 1.1vw + 12.6px, 20px)` – tablet 20 px, telefón ~17 px. Úlohy majú na šírke ≤ 600 px kompaktné rozloženie (koniec `hra.css`).
+- `npm run kontrola -- --telefon` prejde appku vo veľkosti Android telefónov (Pixel 7, malý Galaxy); kontroluje aj prekryté tlačidlá a posúvanie do strán.
+
 ## Kontrola pred odovzdaním
 - `npm test` – zakázané výrazy, emoji, PIN, obťažnosť, povolené polia, záloha, súkromie (žiadne volania servera), manifest.
 - `npm run kontrola` – Playwright (Chromium) prejde 29 obrazoviek ako iPad na výšku aj na šírku, odfotí ich do `snimky/`, skontroluje text ≥ 18 px, kontrast ≥ 4,5 : 1, tlačidlá ≥ 56 px, plochy ≥ 44 px, popisky a pätičku, a overí offline režim. Správa: `snimky/kontrola.md`.

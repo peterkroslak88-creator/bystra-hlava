@@ -2,7 +2,7 @@
 // paralaxu a ročné obdobia do jednej scény.
 import { gsap } from 'gsap';
 import { h } from '../dom.js';
-import { pohybPovoleny } from '../dizajn/pohyb.js';
+import { pohybPovoleny, usporne } from '../dizajn/pohyb.js';
 import { vytvorMalbu } from './malba.js';
 import { vytvorVietor, vietor } from './vietor.js';
 import { STRED } from './sum.js';
@@ -115,11 +115,18 @@ export async function vytvorScenu(obal, { dni = 0, obdobie = rocneObdobie(), hod
   let cas = 0;
   let snimka = 0;
 
+  // Kvalita 0 = plná, vyššie číslo = menej bodov na kreslenie (rýchlejšie)
+  const MIERKY = [1, 0.75, 0.55, 0.4];
+  let kvalita = usporne ? 1 : 0;
+  let pomaleSnimky = 0;
+  let meraneSnimky = 0;
+
   function zmenVelkost() {
     const box = obal.getBoundingClientRect();
     const W = Math.max(1, box.width);
     const H = Math.max(1, box.height);
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    // Jemnosť kresby sa prispôsobuje výkonu zariadenia (pozri meranie nižšie)
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5) * MIERKY[kvalita];
     rozl = rozlozenie(W, H);
     malba?.zmenVelkost(Math.round(W * dpr), Math.round(H * dpr));
     vietorVrstva.zmenVelkost(W, H, dpr);
@@ -157,6 +164,20 @@ export async function vytvorScenu(obal, { dni = 0, obdobie = rocneObdobie(), hod
     posledne = teraz;
     if (!pohyb && !prekreslit) return;
     if (pohyb) cas += Math.min(dt, 0.1);
+
+    // Meranie plynulosti: ak je väčšina snímok pomalá, záhrada sa kreslí hrubšie
+    if (pohyb && dt < 0.5) {
+      meraneSnimky++;
+      if (dt > 0.03) pomaleSnimky++;
+      if (meraneSnimky >= 45) {
+        if (pomaleSnimky > 27 && kvalita < MIERKY.length - 1) {
+          kvalita++;
+          zmenVelkost();
+        }
+        meraneSnimky = 0;
+        pomaleSnimky = 0;
+      }
+    }
     prekreslit = false;
 
     // Paralaxa: vrstvy sa pomaly dobiehajú
@@ -197,6 +218,7 @@ export async function vytvorScenu(obal, { dni = 0, obdobie = rocneObdobie(), hod
       obdobie,
       kotul: stav.dni === 0,
       vtaky: stav.dni >= 7,
+      riedko: kvalita >= 2,
       noc: svetlo.hviezdy,
     });
   }

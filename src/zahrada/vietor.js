@@ -431,8 +431,10 @@ export function vytvorVietor(platno, { kotul }) {
         ctx.fillStyle = ZELENE[f];
         ctx.globalAlpha = 0.9;
         ctx.beginPath();
+        let poradie = 0;
         for (const b of stebla) {
           if (b.farba !== f) continue;
+          if (s.riedko && poradie++ % 2) continue; // slabšie zariadenie: každé druhé steblo
           const vid = ohranic((R - b.p) / 0.08, 0, 1);
           if (vid <= 0) continue;
           const [x, y] = naObrazovku(rozl, posun, b.u, b.v);

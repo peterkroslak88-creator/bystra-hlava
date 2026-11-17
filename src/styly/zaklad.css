@@ -39,10 +39,8 @@
   --zaoblenie: 22px;
   --okraj: clamp(16px, 4vw, 40px);
 
-  /* Jemné zrno papiera (generované, žiadny súbor navyše) */
-  --zrno: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .28 0 0 0 0 .16 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  /* Mäkké akvarelové škvrny */
-  --skvrny: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .78 0 0 0 0 .66 0 0 0 0 .42 .9 0 0 0 -.38'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+  /* Jemné zrno papiera – hotový obrázok (filter počítaný naživo spomaľoval Android) */
+  --zrno: url('/obrazky/zrno.png');
 
   color-scheme: light;
 }
@@ -55,7 +53,8 @@
 
 html {
   /* 1rem = 20 px, aby bol všetok text dobre čitateľný */
-  font-size: 125%;
+  /* Tablet a počítač 20 px; na telefóne úmerne menšie, aby sa úlohy zmestili */
+  font-size: clamp(16px, 1.1vw + 12.6px, 20px);
   -webkit-text-size-adjust: 100%;
   /* Rovné číslice aj v serifovom písme (lepšie čitateľné) */
   font-variant-numeric: lining-nums;
@@ -73,9 +72,9 @@ body {
     var(--zrno),
     radial-gradient(ellipse 80% 50% at 15% 0%, rgba(255, 251, 238, 0.95), transparent 70%),
     radial-gradient(ellipse 60% 50% at 100% 100%, rgba(201, 170, 110, 0.16), transparent 70%),
-    var(--skvrny),
+    radial-gradient(ellipse 55% 40% at 78% 28%, rgba(214, 190, 140, 0.14), transparent 70%),
+    radial-gradient(ellipse 50% 45% at 8% 72%, rgba(206, 180, 128, 0.13), transparent 70%),
     var(--papier);
-  background-attachment: fixed;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -573,4 +572,48 @@ html.bez-pohybu *::before,
 html.bez-pohybu *::after {
   animation: none !important;
   transition-duration: 0.01ms !important;
+}
+
+/* ---------- Úsporný režim (Android a slabšie zariadenia) ---------- */
+
+/* Rastliny bez „ručného“ filtra kresby – vyzerajú takmer rovnako a kreslia sa rýchlo */
+html.setri .rastlina g {
+  filter: none;
+}
+
+html.setri .dialog-pozadie {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ---------- Telefón ---------- */
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.9rem;
+  }
+  .hlavicka {
+    min-height: 0;
+    padding: 10px 0 4px;
+    gap: 8px;
+  }
+  .hlavicka__akcie {
+    gap: 8px;
+  }
+  .hlavicka .tlacidlo {
+    min-height: 50px;
+    padding: 8px 16px;
+    font-size: 1rem;
+  }
+  .karta {
+    padding: 16px;
+  }
+  .tlacidlo--hlavne {
+    min-height: 68px;
+    padding: 14px 24px;
+    font-size: 1.2rem;
+  }
+  .krajina {
+    height: clamp(150px, 24vh, 220px);
+  }
 }

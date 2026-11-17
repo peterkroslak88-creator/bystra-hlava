@@ -103,3 +103,10 @@
   font-weight: 700;
   font-size: 1.1rem;
 }
+
+@media (max-width: 600px) {
+  .scena {
+    height: clamp(190px, 34vh, 300px);
+    border-radius: 20px;
+  }
+}
