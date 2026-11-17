@@ -24,6 +24,7 @@ import { prejdi } from './navigacia.js';
 import { sledujNecinnost } from './relacia.js';
 import { maPersonalPin, hlasCitania } from './ulozisko/hraci.js';
 import { nastavPreferovanyHlas } from './komponenty/citanie.js';
+import { nacitajNahravky } from './komponenty/nahravky.js';
 
 document.getElementById('paticka-text').textContent = PATICKA;
 // Logo Care Orbit v pätičke každej obrazovky
@@ -41,6 +42,9 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
     });
   });
 }
+
+// Zabudovaný hlas sa načíta na pozadí (appku to nezdržuje)
+nacitajNahravky();
 
 (async () => {
   // Hlas na čítanie, ktorý zvolil personál (ak je v tablete)

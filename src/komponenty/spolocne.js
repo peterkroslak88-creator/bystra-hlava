@@ -30,8 +30,9 @@ export function hlavicka(...akcie) {
  * Nadpis s tlačidlom „Čítať nahlas“ a prípadnou vysvetlivkou.
  * @param {{uroven?: string, podnadpis?: string, vysvetlivka?: {nazov: string, text: string}}} moznosti
  */
-export function nadpis(text, { uroven = 'h1', podnadpis = '', vysvetlivka = null, citat = true } = {}) {
-  const citany = [text, podnadpis].filter(Boolean).join('. ');
+export function nadpis(text, { uroven = 'h1', podnadpis = '', vysvetlivka = null, citat = true, citatAko = null } = {}) {
+  // citatAko = iné znenie nadpisu pri čítaní (napr. pozdrav bez mena hráča)
+  const citany = [citatAko ?? text, podnadpis].filter(Boolean).join('. ');
   return h(
     'div',
     { class: 'nadpis-s-citanim' },

@@ -19,16 +19,10 @@ Všetky údaje zostávajú len v tablete a nikam sa neodosielajú.
 
 Po prvom otvorení si tablet appku uloží a odvtedy funguje **aj bez internetu**.
 
-### Príjemný slovenský hlas na čítanie nahlas (odporúčame)
-Appka číta hlasom, ktorý je uložený v iPade. Najprirodzenejšie znie **vylepšená Laura** – stiahne sa zadarmo, raz pre každý tablet (treba Wi-Fi, asi 100–200 MB):
-1. Otvorte **Nastavenia → Prístupnosť → Hovorený obsah → Hlasy**.
-2. Vyberte **Slovenčina → Laura**.
-3. Ťuknite na **Laura (vylepšený)** a počkajte, kým sa stiahne.
-4. V appke: **Personál → Hlas na čítanie** – nechajte **Automaticky** (appka si vylepšený hlas vyberie sama) a ťuknite na **Vyskúšať hlas**.
+### Hlas na čítanie nahlas
+Appka má **vlastný zabudovaný ženský hlas Lili**. Znie rovnako na každom zariadení, funguje bez internetu a netreba nič sťahovať ani nastavovať. Text sa nikam neposiela.
 
-Appka používa **len hlasy uložené priamo v tablete**. Hlasy, ktoré by posielali čítaný text na internet, nepoužije nikdy.
-
-Ak tlačidlo „Čítať nahlas“ číta po anglicky alebo nečíta vôbec, v tablete chýba slovenský hlas – stiahnite ho podľa krokov vyššie.
+Ak by ste chceli radšej hlas tabletu, zvolíte ho v appke: **Personál → Hlas na čítanie** (tlačidlo **Vyskúšať hlas**). Na iPade je najprirodzenejšia **Laura (vylepšený)** – stiahnete ju v Nastaveniach iPadu: Prístupnosť → Hovorený obsah → Hlasy → Slovenčina.
 
 ---
 

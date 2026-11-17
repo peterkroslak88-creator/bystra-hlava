@@ -1,3 +1,4 @@
+import { TEXTY_ULOH } from '../texty-uloh.js';
 // Úlohy s výberom odpovede: príslovie, rady čísel, čo nepatrí, spomienky.
 import { h } from '../../dom.js';
 import { PARAMETRE, otazkaPrislovia, otazkaRadu, otazkaNepatri, otazkySpomienok } from '../logika.js';
@@ -5,8 +6,7 @@ import { otazka } from './spolocne.js';
 
 // Slová – Doplň príslovie
 export const PRISLOVIE = {
-  nazov: 'Doplň príslovie',
-  zadanie: 'Ktoré slovo chýba v príslovi?',
+  ...TEXTY_ULOH.prislovie,
   async spusti(plocha, { uroven }) {
     const p = PARAMETRE.prislovie(uroven);
     const pouzite = [];
@@ -31,8 +31,7 @@ export const PRISLOVIE = {
 
 // Logika – Rady čísel
 export const RADY = {
-  nazov: 'Rady čísel',
-  zadanie: 'Ktoré číslo v rade pokračuje?',
+  ...TEXTY_ULOH.rady,
   async spusti(plocha, { uroven }) {
     const p = PARAMETRE.rady(uroven);
     let spravne = 0;
@@ -50,7 +49,7 @@ export const RADY = {
         moznosti: q.moznosti.map((c) => ({ hodnota: c, popis: String(c), obsah: String(c) })),
         spravna: q.odpoved,
         triedaMoznosti: 'volby--cisla',
-        vysvetlenie: `${q.popis} Ďalej pokračuje číslo ${q.odpoved}.`,
+        vysvetlenie: `${q.popis} Ďalej pokračuje číslo: ${q.odpoved}.`,
       });
       if (ok) spravne++;
     }
@@ -60,8 +59,7 @@ export const RADY = {
 
 // Logika – Čo nepatrí do skupiny
 export const NEPATRI = {
-  nazov: 'Čo nepatrí do skupiny',
-  zadanie: 'Ktoré slovo sa do skupiny nehodí?',
+  ...TEXTY_ULOH.nepatri,
   async spusti(plocha, { uroven }) {
     const p = PARAMETRE.nepatri(uroven);
     let spravne = 0;
@@ -82,8 +80,7 @@ export const NEPATRI = {
 
 // Spomienky – Ako to bolo kedysi
 export const SPOMIENKY = {
-  nazov: 'Ako to bolo kedysi',
-  zadanie: 'Spomeňte si, ako sa kedysi žilo.',
+  ...TEXTY_ULOH.spomienky,
   async spusti(plocha, { uroven }) {
     const p = PARAMETRE.spomienky(uroven);
     const otazky = otazkySpomienok(p.kola, p.stupen, p.moznosti);

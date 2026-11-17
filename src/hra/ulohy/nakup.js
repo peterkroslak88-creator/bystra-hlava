@@ -1,11 +1,11 @@
+import { TEXTY_ULOH } from '../texty-uloh.js';
 // Pamäť – Nákupný zoznam: zapamätať si, čo treba kúpiť, a potom to nájsť.
 import { h } from '../../dom.js';
 import { PARAMETRE, kolouNakupu, vyhodnotNakup } from '../logika.js';
 import { zadanie, odozva } from './spolocne.js';
 
 export const ULOHA = {
-  nazov: 'Nákupný zoznam',
-  zadanie: 'Zapamätajte si, čo treba kúpiť v obchode. Keď budete pripravení, ťuknite na tlačidlo.',
+  ...TEXTY_ULOH.nakup,
   spusti: (plocha, nastavenie) => spusti(plocha, nastavenie),
 };
 

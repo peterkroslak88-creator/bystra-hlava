@@ -1,3 +1,4 @@
+import { TEXTY_ULOH } from '../texty-uloh.js';
 // Bystré oko – Stred a okraj: nakrátko sa ukáže obrázok v strede a hviezda na okraji.
 import { h, zSvg } from '../../dom.js';
 import { ID_RASTLIN, rastlinaSvg, nazovRastliny } from '../../dizajn/rastliny.js';
@@ -23,8 +24,7 @@ function obrazokRastliny(id) {
 }
 
 export const ULOHA = {
-  nazov: 'Stred a okraj',
-  zadanie: 'Pozerajte do stredu rámika. Na chvíľu sa ukáže obrázok a niekde na okraji hviezda. Zapamätajte si oboje.',
+  ...TEXTY_ULOH.stredOkraj,
   async spusti(plocha, { uroven, jemny }) {
     const p = PARAMETRE.stredOkraj(uroven);
     const pozicie = p.pozicie === 4 ? POZICIE.filter((x) => STYRI.includes(x.id)) : POZICIE;

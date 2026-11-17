@@ -27,7 +27,12 @@ describe('súkromie: nič sa neodosiela', () => {
       expect(obsah).not.toMatch(/XMLHttpRequest|sendBeacon|WebSocket|EventSource|navigator\.geolocation/);
       expect(obsah).not.toMatch(/google-analytics|gtag\(|googletagmanager|matomo|plausible|sentry|hotjar|mixpanel/i);
       // fetch smie byť len v service workeri (sťahuje súbory appky z vlastnej adresy)
-      if (!subor.endsWith('sw-sablona.js')) expect(obsah).not.toMatch(/\bfetch\(/);
+      // a pri načítaní zabudovaného hlasu – tam len vlastné súbory appky z priečinka hlas/
+      if (subor.endsWith('nahravky.js')) {
+        const volania = obsah.match(/fetch\([^)]*/g) ?? [];
+        expect(volania.length).toBeGreaterThan(0);
+        for (const v of volania) expect(v).toMatch(/^fetch\(['`]\.\/hlas\//);
+      } else if (!subor.endsWith('sw-sablona.js')) expect(obsah).not.toMatch(/\bfetch\(/);
     });
   }
 

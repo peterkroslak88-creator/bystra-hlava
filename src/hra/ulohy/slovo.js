@@ -1,3 +1,4 @@
+import { TEXTY_ULOH } from '../texty-uloh.js';
 // Slová – Poskladaj slovo z rozhádzaných písmen.
 import { h } from '../../dom.js';
 import { ikona } from '../../komponenty/ikony.js';
@@ -7,8 +8,7 @@ import { zadanie, odozva } from './spolocne.js';
 const velke = (t) => t.toLocaleUpperCase('sk');
 
 export const ULOHA = {
-  nazov: 'Poskladaj slovo',
-  zadanie: 'Ťukajte na písmená v správnom poradí a poskladajte slovo.',
+  ...TEXTY_ULOH.slovo,
   async spusti(plocha, { uroven }) {
     const p = PARAMETRE.slovo(uroven);
     const slova = vyber(slovaPreUroven(uroven), p.kola);
@@ -67,7 +67,7 @@ function jednoSlovo(plocha, slovo, napoveda, prvePismeno) {
       hotovo(ok);
     }
 
-    const textNapovedy = `Nápoveda: ${napoveda}.${prvePismeno ? ` Slovo začína na ${velke(slovo[0])}.` : ''}`;
+    const textNapovedy = `Nápoveda: ${napoveda}.${prvePismeno ? ` Slovo začína na písmeno ${velke(slovo[0])}.` : ''}`;
     plocha.replaceChildren(
       zadanie(ULOHA.zadanie, `${ULOHA.zadanie} ${textNapovedy}`),
       h('p', { class: 'napoveda' }, textNapovedy),

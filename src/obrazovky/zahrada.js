@@ -55,6 +55,7 @@ export async function zahrada({ rastOd = null } = {}) {
         nadpis(pribudlo ? `Ďakujeme, ${hrac.meno}` : `${pozdrav()}, ${hrac.meno}`, {
           podnadpis: `${pribudlo && rastOd > 0 ? 'V záhrade dnes pribudol ďalší kúsok. ' : ''}${textZahrady(pocetDni)} ${textPrekvapenia(pocetDni)}`,
           vysvetlivka: VYSVETLIVKY.zahrada,
+          citatAko: pribudlo ? 'Ďakujeme' : pozdrav(),
         })
       ),
       h(

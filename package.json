@@ -13,7 +13,9 @@
     "ikony": "node nastroje/ikony.mjs",
     "kontrola": "node nastroje/kontrola.mjs",
     "logo": "node nastroje/logo.mjs",
-    "ukazka": "node nastroje/ukazka-zahrady.mjs"
+    "ukazka": "node nastroje/ukazka-zahrady.mjs",
+    "hlas": "node nastroje/nahraj-hlas.mjs",
+    "skuska-hlasu": "node nastroje/skuska-hlasu.mjs"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.3.0",
@@ -21,6 +23,7 @@
     "gsap": "^3.15.1"
   },
   "devDependencies": {
+    "@breezystack/lamejs": "^1.2.7",
     "fake-indexeddb": "^6.2.8",
     "playwright": "^1.65.1",
     "sharp": "^0.35.5",

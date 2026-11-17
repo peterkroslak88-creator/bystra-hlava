@@ -56,6 +56,7 @@ export async function prihlasenieKlienta({ hracId }) {
         nadpis(`${pozdrav()}, ${hrac.meno}`, {
           podnadpis: 'Zadajte, prosím, svoj PIN.',
           vysvetlivka: VYSVETLIVKY.pin,
+          citatAko: pozdrav(),
         })
       ),
       h('div', { class: 'prihlasenie__klavesnica karta' }, pad.el)

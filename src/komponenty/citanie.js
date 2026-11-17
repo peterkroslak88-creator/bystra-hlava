@@ -4,9 +4,15 @@
 import { h } from '../dom.js';
 import { ikona } from './ikony.js';
 import { RYCHLOST, PAUZA_MEDZI_VETAMI_MS, vyberHlas, slovenskeHlasy, pripravText } from './hlas-logika.js';
+import { najdiNahravky, prehraj, zastavNahravku } from './nahravky.js';
 
-export const citanieDostupne =
+const PAUZA_MEDZI_CASTAMI_MS = 110;
+
+// Hlas zariadenia (ak ho zariadenie má)
+const recDostupna =
   typeof window !== 'undefined' && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+// Čítanie je dostupné vždy: appka má vlastný zabudovaný hlas
+export const citanieDostupne = typeof window !== 'undefined';
 
 let preferovanyHlas = null; // voiceURI zvolené personálom (nastavenie tabletu)
 let hlas = null;
@@ -19,14 +25,14 @@ function obnovHlas() {
   posluchaci.forEach((f) => f());
 }
 
-if (citanieDostupne) {
+if (recDostupna) {
   obnovHlas();
   window.speechSynthesis.addEventListener?.('voiceschanged', obnovHlas);
 }
 
 // Zoznam slovenských hlasov v zariadení (na výber v nastaveniach)
 export function dostupneHlasy() {
-  return citanieDostupne ? slovenskeHlasy(window.speechSynthesis.getVoices()) : [];
+  return recDostupna ? slovenskeHlasy(window.speechSynthesis.getVoices()) : [];
 }
 
 export function aktualnyHlas() {
@@ -35,7 +41,7 @@ export function aktualnyHlas() {
 
 export function nastavPreferovanyHlas(voiceURI) {
   preferovanyHlas = voiceURI || null;
-  if (citanieDostupne) obnovHlas();
+  if (recDostupna) obnovHlas();
 }
 
 // Upozorní, keď zariadenie dočíta zoznam hlasov (na iPade to chvíľu trvá)
@@ -54,7 +60,8 @@ function nastavTlacidlo(tlacidlo, cita) {
 export function zastavCitanie() {
   if (!citanieDostupne) return;
   cisloCitania++;
-  window.speechSynthesis.cancel();
+  if (recDostupna) window.speechSynthesis.cancel();
+  zastavNahravku();
   nastavTlacidlo(aktivneTlacidlo, false);
   aktivneTlacidlo = null;
 }
@@ -79,11 +86,26 @@ export function citaj(text, tlacidlo = null, { hlas: inyHlas = null } = {}) {
   };
 
   const pouzityHlas = inyHlas || hlas;
+  // Zabudovaný hlas sa použije, ak personál nezvolil konkrétny hlas zariadenia
+  const zabudovany = !inyHlas && !preferovanyHlas;
   let i = 0;
   const dalsia = () => {
     if (toto !== cisloCitania) return; // medzitým sa začalo iné čítanie alebo sa zastavilo
     if (i >= vety.length) return koniec();
-    const veta = new SpeechSynthesisUtterance(vety[i++]);
+    const text = vety[i++];
+    const nahravky = zabudovany ? najdiNahravky(text) : null;
+    if (nahravky) {
+      // Nahraná veta (alebo zoznam poskladaný z nahraných slov)
+      let j = 0;
+      const dalsiaCast = () => {
+        if (toto !== cisloCitania) return;
+        if (j >= nahravky.length) return setTimeout(dalsia, PAUZA_MEDZI_VETAMI_MS);
+        prehraj(nahravky[j++], () => setTimeout(dalsiaCast, PAUZA_MEDZI_CASTAMI_MS), koniec);
+      };
+      return dalsiaCast();
+    }
+    if (!recDostupna) return dalsia(); // zariadenie nevie čítať – vetu preskočíme
+    const veta = new SpeechSynthesisUtterance(text);
     veta.lang = 'sk-SK';
     veta.rate = RYCHLOST;
     veta.pitch = 1;

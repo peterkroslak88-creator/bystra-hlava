@@ -33,7 +33,8 @@ export function odozva(plocha, { spravne, vysvetlenie = '', rozhovor = '', dalej
         'div',
         { class: 'riadok' },
         tlacidloDalej,
-        tlacidloCitania([nadpis, vysvetlenie, rozhovor].filter(Boolean).join(' '))
+        // Bodka za „Nevadí“, aby sa pri čítaní nezlialo s ďalšou vetou
+        tlacidloCitania([/[.!?]$/.test(nadpis) ? nadpis : `${nadpis}.`, vysvetlenie, rozhovor ? `Na rozhovor: ${rozhovor}` : ''].filter(Boolean).join(' '))
       )
     );
     tlacidloDalej.addEventListener('click', () => {

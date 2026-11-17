@@ -1,3 +1,4 @@
+import { TEXTY_ULOH } from '../texty-uloh.js';
 // Pamäť – Pexeso: hľadanie dvojíc rovnakých obrázkov.
 import { h, zSvg } from '../../dom.js';
 import { ID_RASTLIN, rastlinaSvg, nazovRastliny } from '../../dizajn/rastliny.js';
@@ -5,8 +6,7 @@ import { PARAMETRE, NASOBOK_JEMNY, vyber, zamiesaj, vyhodnotPexeso } from '../lo
 import { zadanie, odozva, cakaj } from './spolocne.js';
 
 export const ULOHA = {
-  nazov: 'Pexeso',
-  zadanie: 'Ťuknite na dve karty. Ak je na nich rovnaký obrázok, zostanú otočené. Nájdite všetky dvojice.',
+  ...TEXTY_ULOH.pexeso,
   spusti(plocha, { uroven, jemny }) {
     return new Promise(async (hotovo) => {
       const p = PARAMETRE.pexeso(uroven);

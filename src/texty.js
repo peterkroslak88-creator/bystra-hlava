@@ -39,7 +39,7 @@ export const VYSVETLIVKY = {
   },
   hlas: {
     nazov: 'Hlas na čítanie',
-    text: 'Vyberte hlas, ktorým appka číta zadania a vysvetlivky. Používajú sa len hlasy uložené priamo v tablete, text sa nikam neposiela.',
+    text: 'Appka číta vlastným zabudovaným hlasom Lili. Ak chcete, zvoľte namiesto neho hlas uložený v tablete. Text sa nikam neposiela.',
   },
   zaloha: {
     nazov: 'Záloha a obnova',

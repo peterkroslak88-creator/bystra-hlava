@@ -47,6 +47,40 @@ export function vyberHlas(hlasy, preferovany = null) {
   return vhodne[0] || null;
 }
 
+// ---------- Nahrávky zabudovaného hlasu ----------
+
+// Kľúč nahrávky: text malými písmenami, bez bodky na konci
+export function klucNahravky(text) {
+  return String(text || '')
+    .toLocaleLowerCase('sk')
+    .replace(/[.!?]+$/, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Rozdelenie vety na časti podľa čiarok a dvojbodiek (zoznamy možností, čísel…)
+export function castiVety(veta) {
+  return String(veta || '')
+    .replace(/[.!?]+$/, '')
+    .split(/[,:]\s+/)
+    .map(klucNahravky)
+    .filter(Boolean);
+}
+
+/**
+ * Nájde nahrávky pre vetu: buď celú vetu, alebo všetky jej časti.
+ * @param {(kluc: string) => any} maNahravku  vráti nahrávku alebo undefined
+ * @returns {any[]|null} zoznam nahrávok na prehratie, alebo null (prečíta hlas zariadenia)
+ */
+export function nahravkyPreVetu(veta, maNahravku) {
+  const cela = maNahravku(klucNahravky(veta));
+  if (cela) return [cela];
+  const casti = castiVety(veta);
+  if (casti.length < 2) return null;
+  const najdene = casti.map(maNahravku);
+  return najdene.every(Boolean) ? najdene : null;
+}
+
 /**
  * Úprava textu pre plynulejšie čítanie a rozdelenie na vety.
  * Kratšie vety s pauzou medzi nimi znejú prirodzenejšie a na iPade sa nezasekávajú.

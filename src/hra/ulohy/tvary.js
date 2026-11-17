@@ -1,3 +1,4 @@
+import { TEXTY_ULOH } from '../texty-uloh.js';
 // Orientácia – Otočené tvary: nájsť ten istý tvar, len otočený (nie zrkadlový).
 import { h, zSvg } from '../../dom.js';
 import { PARAMETRE, otazkaTvaru } from '../logika.js';
@@ -21,8 +22,7 @@ function svgTvaru(bunky, farba = '#d3a85a') {
 }
 
 export const ULOHA = {
-  nazov: 'Otočené tvary',
-  zadanie: 'Ktorý tvar je ten istý ako vzor, len otočený? Pozor, niektoré sú obrátené ako v zrkadle.',
+  ...TEXTY_ULOH.tvary,
   async spusti(plocha, { uroven }) {
     const p = PARAMETRE.tvary(uroven);
     let spravne = 0;
